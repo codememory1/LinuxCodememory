@@ -1,0 +1,31 @@
+[cdm-tooltip] {
+	position: relative;
+}
+
+[cdm-tooltip]:before {
+	content: attr(cdm-tooltip);
+	position: absolute;
+	background: #000;
+	color: #fff;
+	padding: 4px 6px;
+	border-radius: 2px;
+	transition: visibility 0.5s, opacity 0.5s, bottom 0.5s;
+	opacity: 0;
+	font-size: 12px;
+	backface-visibility: hidden;
+	bottom: -30px;
+}
+
+[cdm-tooltip]:after {
+	content: '';
+	position: absolute;
+	border: 5px solid transparent;
+	border-bottom: 5px solid red;
+	opacity: 0;
+}
+
+[cdm-tooltip]:hover:before {
+	bottom: -20px;
+	backface-visibility: visible;
+	opacity: 1;
+}

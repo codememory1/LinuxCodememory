@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Controllers;
+
+use System\Codememory\AbstractComponent\Controller;
+
+/**
+ * Class
+ * @package App\Consollers\%name
+ */
+class %name extends Controller
+{
+
+    /**
+     * WebController constructor.
+     *
+     * @param $container
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function web()
+    {
+
+        //TODO:
+        
+        
+    }
+    
+}

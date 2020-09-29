@@ -1,0 +1,12 @@
+{
+    "information": {
+        "name": "Codememory",
+        "charset": "UTF-8",
+        "creator": "default",
+        "date-create": "2020-09-20 14:15",
+        "remove-access": true
+    },
+    "statistics": {
+        "requests": 0
+    }
+}

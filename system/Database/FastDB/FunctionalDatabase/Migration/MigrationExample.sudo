@@ -1,0 +1,23 @@
+<?php
+
+namespace Migrations\FastDB;
+
+use System\Database\FastDB\FunctionalDatabase\Migration\MigrationComponentHandler as Migration;
+use System\Database\FastDB\FunctionalDatabase\Migration\MigrationInterfaces\PrivilegeInterface as Privilege;
+use System\Database\FastDB\FunctionalDatabase\Migration\MigrationInterfaces\PresentationEventInterface as PresentEvent;
+
+/**
+ * Class
+ * @package Migrations\FastDB\%MIGRATION_CLASS
+ */
+class %MIGRATION_CLASS extends Migration
+{
+	
+	public function migrate()
+	{
+		
+		// TODO:
+		
+	}
+
+}

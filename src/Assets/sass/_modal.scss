@@ -1,0 +1,71 @@
+@import '_vars';
+
+.modal-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+
+    &.active {
+        visibility: visible;
+        opacity: 1;
+
+        div.modal-content-restrictions {
+            top: 50%;
+        }
+    }
+
+    div.modal-full-fon {
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    div.modal-content {
+        height: 100%;
+        
+        span,p,div {
+            font-size: 14px!important;
+            color: #dadada;
+        }
+
+        div.modal-title {
+            color: $colorDark;
+            font-size: 16px;
+        }
+    }
+
+    div.modal-content-restrictions {
+        width: 600px;
+        height: 200px;
+        background-color: $dark;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid $borderDark;
+        border-radius: 4px;
+        transition: top 0.3s ease;
+    }
+
+    .modal-title {
+        padding: 8px 8px;
+        border-bottom: 1px solid $borderDark;
+
+        h5 {
+            font-size: 15px;
+        }
+
+        .modal-close {
+            float: right;
+            cursor: pointer;
+            padding: 0px 10px;
+        }
+    }
+}

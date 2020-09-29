@@ -1,0 +1,23 @@
+<?php
+
+namespace Access;
+
+use System\Http\Access\Access;
+use Request;
+use Responce;
+
+/**
+ * Class IpAccess
+ * @package Access
+ */
+class %ACCESS_NAME
+{
+
+    public static function accessHandle()
+    {
+
+		//TODO:
+		
+    }
+
+}

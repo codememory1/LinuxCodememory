@@ -1,0 +1,49 @@
+[@theme(header)]
+[@theme(menu)]
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>История</span>
+        </div>
+        <div class="content-abs">
+            [@if count($history) < 1]
+                <center>
+                    <h6>Пусто</h6>
+                </center>
+            [@endIf]
+            [@foreach $history as $key => $data]
+                <div class="card-history" history-id="[[ $key ]]">
+                    <span class="new-history [[ $data['is-ready'] === false ? 'show' : '' ]]"></span>
+                    <div class="content-card-history">
+                        <div class="title-history">
+                            <div>
+                                <span>[[ $data['title-history'] ]]</span> 
+                                <span class="delete-history" history-close-id="[[ $key ]]">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span class="date-create-history">[[ $data['date-send'] ]]</span>
+                            </div>
+                        </div>
+                        <div class="content-history">
+                            <div class="data-sender-history grid">
+                                <div>
+                                    <span>Данные Отправителя: <span class="show_data_sender"><i class="far fa-eye"></i></span></span>
+                                </div>
+                                <div style="margin-left:20px;" class="data-sender-div">
+                                    <span>Сервер: <mark>[[ $data['sender-server'] ]]</mark></span>
+                                    <span>Пользователь: <mark>[[ $data['sender'] ]]</mark></span>
+                                </div>
+                            </div>
+                            [[ $data['template-history'] ]]
+                        </div>
+                    </div>
+                </div>
+            [@endForeach]
+        </div>
+    </div>
+</div>
+
+[@theme(footer)]

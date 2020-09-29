@@ -1,0 +1,146 @@
+.content-visibil__show {
+    width: 100%;
+    background: #fff;
+    color: #000;
+    border: 1px solid #b7b7b7;
+    border-radius: 3px;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 35px;
+    position: relative;
+    cursor: pointer;
+    
+    a {
+        color: #000;
+    }
+    
+    input {
+        float: left;
+        padding: 0;
+        background: #fff;
+        border: none;
+        outline: none;
+    }
+    
+    &.active {
+        border-radius: 3px 3px 0px 0px;
+        
+        i.fas {
+            transform: translate(0%, -50%) rotate(-180deg);
+        }
+        
+    }
+    
+    i.fas {
+        position: absolute;
+        right: 8px;
+        color: #00000078;
+        top: 50%;
+        transform: translate(0%, -50%);
+        cursor: pointer;
+        transition: transform 0.5s;
+    }
+    
+    span {
+        pointer-events: none;
+    }
+       
+}
+
+.container__selector {
+    position: relative;
+    margin: 0;
+    display: block;
+    text-indent: 0px;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    -webkit-appearance: menulist;
+    box-sizing: border-box;
+    text-align: start;
+    float: inherit;
+    height: 31px;
+    
+}
+
+.list__selector {
+    width: 100%;
+    background: #fff;
+    color: #000;
+    border: 1px solid #b7b7b7;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-top: 0px;
+    float: left;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0);
+    transition: 0.5s;
+    max-height: 200px;
+    height: max-content;
+    overflow: auto;
+    position: relative;
+    z-index: 9999;
+    
+    &.active {
+        border-radius: 0px 0px 3px 3px;
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        transition: 0.5s;
+    }
+    
+    div.content-list__selector {
+        ul {
+            margin: 0;
+            padding: 0;
+            float: left;
+            width: 100%;
+            
+            li {
+                width: -webkit-fill-available;
+                padding: 8px 10px;
+                font-size: 13px;
+                padding-left: 20px;
+                word-break: break-word;
+                
+                a {
+                    width: -webkit-fill-available;
+                    font-size: 13px;
+                    word-break: break-word;
+                    float: left;
+                    padding: 0;
+                    color: #000;
+                }
+                
+                &:hover {
+                    background: darken(#fff, 5%);
+                }
+                
+                &.selected {
+                    background: #0c90dd38!important;
+                    position: relative;
+
+                    &::before {
+                        content: '\f00c';
+                        font-family: "Font Awesome 5 Pro";
+                        position: absolute;
+                        right: 8px;
+                        top: 50%;
+                        transform: translate(0%, -50%);
+                        color: #00000078;
+                    }
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}

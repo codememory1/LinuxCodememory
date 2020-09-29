@@ -1,0 +1,17 @@
+[@theme(header)]
+[@theme(menu)]
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>История</span>
+        </div>
+        <div class="content-abs">
+            <h6>Вам прислали таблицу</h6>
+        </div>
+    </div>
+</div>
+
+[@theme(footer)]

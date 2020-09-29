@@ -1,0 +1,20 @@
+{
+    "data": {
+        "1": {
+            "life": 1601739014,
+            "id": 19,
+            "name": "null",
+            "price": "0.00",
+            "prosent": "10",
+            "date": "2020-09-28",
+            "date_time": "2020-09-28 18:30:14",
+            "timestamp": 1601307014
+        }
+    },
+    "statistics": {
+        "last-request": "2020-09-28 21:03",
+        "all-request": 25,
+        "id-last-add-record": 2,
+        "date-create": "2020-09-27 23:01"
+    }
+}

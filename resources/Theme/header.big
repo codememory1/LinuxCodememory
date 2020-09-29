@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>FastDB</title>
+	
+	[@assets(css,all.min)]
+	[@build(css,main.min)]
+	[@assets(js,Modules/ContextMenu)]
+	<script>
+		let defaultMenu = [
+			{name: 'reload', value: 'Перезагрузить'},
+			{name: 'prev', value: 'Предыдущея страница'}
+		];
+		const ContextMenuObject = new ContextMenu();
+    	ContextMenuObject.addGroup(defaultMenu);
+	</script>
+</head>
+<body>
+
+<div class="content-all-notifications"></div>

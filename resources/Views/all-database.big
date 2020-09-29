@@ -1,0 +1,101 @@
+[@theme(header)]
+[@theme(menu)]
+
+[@use(App\\Models\\DatabaseModel, dbWithTables)]
+<script>
+    let settingsModal = [];
+    let contentsModal = [];
+</script>
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>Все Базы Данных</span>
+        </div>
+        <div class="content-abs">
+            <div class="all-database-with-info">
+                [@theme(flash)]
+
+                [@if count($all) < 1]
+                    <center><h6>Пусто</h6></center>
+                [@endIf]
+
+                [@foreach $all as $dbname => $tables]
+                    [php($info = $dbWithTables->getInfo($dbname))php]
+                    
+                    <div class="item-db">
+                        <h6>[[ $dbname ]] <a href="[[ route('FastDB.open-db') ]]?dbname=[[ $dbname ]]">[Открыть]</a></h6>
+                        <div class="information-database-click">
+                            <div class="content-info-database" style="height: max-content;">
+                                <span class="title-content-info-db">Информация о БД</span>
+                                <div class="hr-light"></div>
+                                <div class="name-columns">
+                                    <span>Имя</span>
+                                    <span>Кодировка</span>
+                                    <span>Вес</span>
+                                    <span>Создана</span>
+                                    <span>Действия</span>
+                                </div>
+                                <div class="value-columns">
+                                    <span>[[ $info['information']['name'] ]]</span>
+                                    <span>[[ down_line($info['information']['charset']) ]]</span>
+                                    <span>[[ $dbWithTables->getSize($dbname) ]] B</span>
+                                    <span>[[ $info['information']['date-create'] ]]</span>
+                                    <span class="actions-buttons-column">
+                                        <a href="[[ route('FastDB.open-db') ]]?dbname=[[ $dbname ]]" class="btn btn-success">
+                                            <i class="far fa-external-link"></i>
+                                        </a>
+                                        <a href="" class="btn btn-info">
+                                            <i class="far fa-cogs"></i>
+                                        </a>
+                                        <a [[ !$del_db ? 'forbidden-none' : '' ]] class="btn btn-error" button-open-modal="delete-database-[[ $dbname ]]">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                        <a class="btn btn-info" button-open-modal="info-database-[[ $dbname ]]">
+                                            <i class="far fa-info-circle"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            [@if count($tables) > 0]
+                                <div class="content-info-database" style="height: max-content;">
+                                    <span class="title-content-info-db">Таблицы</span>
+                                    <div class="hr-light"></div>
+                                    <ul class="list-tables-database">
+                                        [@foreach $tables as $table]
+                                            <li><a href="[[ route('FastDB.watch-table', ['db' => $dbname, 'table' => $table]) ]]">[[ $table ]]</a></li>
+                                        [@endForeach]
+                                    </ul>
+                                </div>
+                            [@endIf]
+                        </div>
+                    </div>
+                    <script>
+                        settingsModal.push({
+                            id: 'delete-database-[[ $dbname ]]',
+                            title: 'Удаление Базы  Данных'
+                        },
+                        {
+                            id: 'info-database-[[ $dbname ]]',
+                            title: 'Инфомация о Базе Данных'
+                        });
+                        contentsModal.push({
+                            content: '<div class="content-modal-delete-account"><span>Вы действительно хотите <u>Удалить</u> Базу Данных <u>[[ $dbname ]]</u>?</span></div><div class="footer-modal"><button class="btn btn-light close-modal-btn" modal-close="delete-database-[[ $dbname ]]">Отмена</button><a href="[[ route("FastDB.delete-db") ]]?dbname=[[ $dbname ]]" style="float: right;" class="btn btn-error">Удалить</a></div>'
+                        },
+                        {
+                            content: '<div class="content-modal-delete-account"><div style="margin-bottom:10px;"><span>Запросов: <mark>[[ $info["statistics"]["requests"] ]]</mark></span></div><div style="margin-bottom:10px;"><span>Создатель БД: <mark>[[ $info["information"]["creator"] ]]</mark></span></div><div style="margin-bottom:10px;"><span>Таблиц в БД: <mark>[[ count($tables) ]]</mark></span></div></div><div class="footer-modal"><button class="btn btn-info close-modal-btn" modal-close="info-database-[[ $dbname ]]">Закрыть</button>'
+                        });
+                    </script>
+                    <div class="hr-light"></div>
+                [@endForeach]
+            </div>
+        </div>
+    </div>
+</div>
+
+[@theme(footer)]
+<script>
+    new Modal(true, settingsModal).content(contentsModal).render();
+</script>

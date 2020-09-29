@@ -1,0 +1,37 @@
+{
+    "server": "333.333.33.33.3",
+    "port": 3333,
+    "username": "games_akk",
+    "password": "",
+    "hash": "Ogknci28sUCZlVte5ud7NH34bXj0TAmFhQpJ",
+    "date-created": "2020-09-22 22:05",
+    "freeze-account": false,
+    "memory": {
+        "used": 0,
+        "of": "50",
+        "unit": "MB",
+        "units": {
+            "GB": 1000000000,
+            "MB": 1000000
+        }
+    },
+    "access-rights": {
+        "create-db": true,
+        "delete-db": true,
+        "create-table": true,
+        "delete-table": true,
+        "create-user": true,
+        "check-all-users": true,
+        "edit-user-access": true,
+        "edit-user-info": true,
+        "delete-user": true,
+        "watch-table": true,
+        "embed-data-table": true,
+        "cleans-table": true
+    },
+    "deleted-data": {
+        "save": false,
+        "asa": "server",
+        "path_local_save": null
+    }
+}

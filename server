@@ -1,0 +1,31 @@
+<?php
+
+	session_start();
+	
+	use System\Classes\AliasesContainer;
+	use System\Classes\Facade\Facade;
+	use Symfony\Component\Console\Application;
+	use System\Router\Router;
+    use System\Inc\File;
+	
+	require __DIR__ .'/vendor/autoload.php';
+	require __DIR__ .'/system/libs/function-codememory.php';
+	
+	new Facade();
+	new AliasesContainer();
+    $file = new File();
+
+	Facade::installStaticMethod();
+	AliasesContainer::getList();
+	
+	$router = new Router();
+	$router->names();
+	
+		
+	$dotenv = Dotenv\Dotenv::create(__DIR__, '.env');
+    $dotenv->load();
+	
+	require __DIR__ . '/config/app.php';
+    require include_cm('config/Codememory/configuration');
+
+    $file->import($server['pathRegitserServer']);

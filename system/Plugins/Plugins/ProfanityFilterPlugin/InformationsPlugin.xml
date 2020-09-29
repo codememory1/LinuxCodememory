@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PluginCDM>
+
+	<namePlugin>ProfanityFilter</namePlugin>
+	<Description>Данный плагин, заменяет всю нецензурную брать символамии(указаные в настройках плагина)</Description>
+	<PluginTask>Найти нецензурную брать. И заменить</PluginTask>
+	<Version version="1.0.0"></Version>
+	<Author>Codememory</Author>
+	<EmailAuthorPlugin>codememory@support.com</EmailAuthorPlugin>
+	<ReleaseDate>18.04.20</ReleaseDate>
+	
+	<PluginSettings>
+	
+		<StartFunction>execute</StartFunction>
+		<FormatCreate format="class">ProfanityFilterPlugin</FormatCreate>
+		<PatchFileStart>/Handle/</PatchFileStart> 
+		
+	</PluginSettings>
+	
+</PluginCDM>

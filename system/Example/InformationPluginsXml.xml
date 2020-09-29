@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PluginCDM>
+
+	<namePlugin>%name_plugin</namePlugin>
+	<Description>--Описание плагина--</Description>
+	<PluginTask>--Задача плагина--</PluginTask>
+	<Version version="--version--"></Version>
+	<Author>--Автор Плагина--</Author>
+	<EmailAuthorPlugin>--Email Автора плагина--</EmailAuthorPlugin>
+	<ReleaseDate>--Дата выпуска плагина, или обновление--</ReleaseDate>
+	
+	<PluginSettings>
+	
+		<StartFunction>--Метод который будет запускать плагин--</StartFunction>
+		<FormatCreate format="class">--Класс в котором находится метод запуска--</FormatCreate>
+		<PatchFileStart>--Путь к классу, или если он в корне то "*"--</PatchFileStart> 
+		
+	</PluginSettings>
+	
+</PluginCDM>

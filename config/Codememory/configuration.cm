@@ -1,0 +1,23 @@
+# =============LANGUAGE============= #
+var language = ['path'] resources/Lang/!!
+var language = ['name'] languages!!
+var language = ['auto_write'] `No`!!
+
+#  =============LOG============= #
+var enable_debug = `Yes`!!
+var write_log = ['enable'] `No`!!
+var write_log = ['path'] storage/logs/error_log.log!!
+
+# =============LISTENERS============= #
+var server = ['pathRegitserServer'] app/Listeners/server-registration.php!!
+var server = ['namespace'] App\\Listeners\\%s!!
+
+# =============SESSION============= #
+var session = ['save'] storage/session/!!
+var session = ['encode'] `No`!!
+var session = ['auto_delete'] `Yes`!!
+
+# =============EXPORT ALL VARS============= #
+var allVars = `get_defined_vars()`!!
+
+export-vars language,enable_debug,write_log,server,session,allVars

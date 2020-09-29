@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <pathMigration></pathMigration>
+    <autification-request>
+        <server></server>
+        <login></login>
+        <password></password>
+    </autification-request>
+    <autification>
+        <server></server>
+        <login></login>
+        <password></password>
+        <dbname></dbname>
+    </autification>
+</configuration>

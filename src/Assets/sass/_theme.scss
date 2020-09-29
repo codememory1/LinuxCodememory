@@ -1,0 +1,21 @@
+@import '_vars';
+
+body.theme-dark {
+	background: $dark;
+	color: $colorDark;
+	
+	input[type="text"],input[type="password"] {
+		border: 1px solid $borderDark;
+	}
+	
+	.container-auth {
+		background: $lightDark;
+		border: 1px solid $borderDark;
+		box-shadow: 0px 5px 10px $dark,
+		0px 5px 5px $borderDark;
+	}
+}
+
+body.theme-white {
+	
+}

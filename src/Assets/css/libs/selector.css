@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@500&display=swap');
+
+.selector-container * {
+    font-family: 'Yantramanav', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+}
+
+.selector-container {
+    width: 200px;
+    height: max-content;
+}
+
+.selector-ul-list li {
+    list-style-type: none;
+    padding: 7px 5px;
+    font-size: 13px;
+    transition: background 0.4s ease;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selector-ul-list li.active {
+    background: #f0f0f0;
+}
+
+.selector-ul-list li:hover {
+    transition: background 0.4s ease;
+    background: #f0f0f0;
+}
+
+.selector-show {
+    background: #fff;
+    color: #000;
+    border-radius: 3px;
+    padding: 5px 6px;
+    cursor: pointer;
+    height: 28px;
+}
+
+.selector-text-selection {
+    float: left;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selector-arrow.up {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+}
+
+.selector-show.active {
+    border-radius: 3px 3px 0 0;
+}
+
+.selector-show.active .selector-arrow.down {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+}
+
+.selector-show.active .selector-arrow.up {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.selector-list {
+    background: #fff;
+    color: #000;
+    border-top: 1px solid #929292;
+    transition: transform 0.4s ease;
+    transform: scale(0);
+}
+
+.selector-list.active {
+    transform: scale(1);
+}
+
+.selector-arrow {
+    pointer-events: none;
+    float: right;
+    transition: transform 0.4s ease;
+}
+
+.selector-arrow > i {
+    font-size: 22px;
+    margin-top: -2px;
+    color: #a29d9d;
+}

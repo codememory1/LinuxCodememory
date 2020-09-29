@@ -1,0 +1,12 @@
+{
+    "1": {
+        "server": "333.333.33.33.3:3333",
+        "login": "default",
+        "password": ""
+    },
+    "2": {
+        "server": "333.333.33.33.3:3333",
+        "login": "games_akk",
+        "password": ""
+    }
+}

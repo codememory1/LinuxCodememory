@@ -1,0 +1,134 @@
+[@theme(header)]
+[@theme(menu)]
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>Просмотр Таблицы <mark>[[ $table ]]</mark></span>
+        </div>
+        <div class="content-abs">
+            [@theme(flash)]
+            <div style="height: 30px;margin-left: 5px;">
+                <a href="[[ route('FastDB.embed-data') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]" class="btn btn-success">Вставить Данные</a>
+                <a href="" class="btn btn-info">Редактировать структуру таблицы</a>
+            </div>
+            <div class="table_statistics grid">
+                <div class="content-statictic grid">
+                    <div>
+                        <div>
+                            <span>Всего Запросов:</span>
+                            <span>[[ $datas['statistics']['all-request'] ]]</span>
+                        </div>
+                        <div>
+                            <span>Последний Запрос:</span>
+                            <span>[[ $datas['statistics']['last-request'] ]]</span>
+                        </div>
+                        <div>
+                            <span>Индитификатор Последней Записи:</span>
+                            <span>[[ $datas['statistics']['id-last-add-record'] ]]</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <span>Всего Записей:</span>
+                            <span>[[ count($datas['data']) ]]</span>
+                        </div>
+                        <div>
+                            <span>Время Ответа:</span>
+                            <span>[[ number_format(microtime(true) - Server::get('REQUEST_TIME_FLOAT'), 4, '.', '') ]] s</span>
+                        </div>
+                        <div>
+                            <span>Индитификатор Последней Записи:</span>
+                            <span>20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-table">
+                <div class="content-table">
+                    <form action="[[ route('FastDB.delete-selection-record') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]" method="POST">
+                        <button class="btn btn-error" style="margin-left: 0;font-size: 13px;">Удалить выбраное</button>
+                        <table>
+                            <thead>
+                                <th><input type="checkbox" select-all-checkbox="all-delete-data" class="minus"></th>
+                                [@foreach $structure as $column]
+                                    <th style="position: relative;">
+                                            [[ $column['name-column'] ]]
+                                        <span class="type-column-th">
+                                            [[ $column['type'] ]]
+                                        </span>
+                                        <span class="resize"></span>
+                                    </th>
+                                [@endForeach]
+                                <th>Действия</th>
+                            </thead>
+                            <tbody>
+                                [@foreach $datas['data'] as $key => $data]
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" select-checkbox="all-delete-data" class="marker" name="unique-id-record[]" value="[[ $key ]]">
+                                        </td>
+                                        [@foreach $structure as $column]
+                                            [@foreach $data as $nameColumn => $dataValue]
+                                                [@if $column['name-column'] === 'life']
+                                                    [@if $data[$column['name-column']] < 0]
+                                                        <td>
+                                                            [[ $data[$column['name-column']] ]]
+                                                        </td>
+                                                    [@else]
+                                                        <td>
+                                                            [[ $data[$column['name-column']] - Date::unix() ]]
+                                                        </td>
+                                                    [@endIf]
+                                                    [@else]
+                                                    <td edit-field="true">[[ $data[$column['name-column']] ]]</td>
+                                                [@endIf]
+                                                
+                                                [php(break)php]
+                                            [@endForeach]
+                                        [@endForeach]
+                                        <td>
+                                            <a class="btn btn-success" href="[[ route('FastDB.edit-data-table') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]&id=[[ $key ]]">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-info" href="[[ route('FastDB.edit-access') ]]?login=[[ $user['username'] ]]">
+                                                <i class="far fa-user-chart"></i>
+                                            </a>
+                                            <a class="btn btn-error" href="[[ route('FastDB.delete-selection-record') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]&id=[[ $key ]]">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                [@endForeach]
+
+                               
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    ContextMenuObject.addGroup([
+        {
+            name: 'structure-table',
+            value: 'Показать структуру таблицы'
+        },
+        {
+            name: 'info-column-table',
+            value: 'Информация о колонках таблицы <span class="right" style="margin-top: 2px;"><input type="checkbox" class="on-off" id="info-column-table"></span>'
+        },
+        {
+            name: 'on-off-statictic',
+            value: 'Статистика таблицы <span class="right" style="margin-top: 2px;"><input type="checkbox" class="on-off" id="check-staticic-table"></span>'
+        }
+    ]);
+</script>
+
+[@theme(footer)]

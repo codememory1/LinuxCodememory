@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+desiner-code {
+	display: block;
+	float: left;
+	box-sizing: border-box;
+	overflow: auto;
+	background-color: #283142;
+	color: #fff;
+	position: relative;
+	grid-auto-flow: column;
+	display: grid;
+	grid-auto-columns: max-content;
+}
+
+desiner-code pre {
+	padding: 15px;
+	margin: 0;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	box-sizing: border-box;
+	white-space: pre;
+}
+
+desiner-code pre > code.code-pre {
+	font-weight: 400;
+	word-break: normal;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	line-height: 22px;
+	display: block;
+	margin: -1px -2px;
+	opacity: 0;
+	white-space: break-spaces;
+}
+
+
+desiner-code > pre > code.code-pre > div {
+	counter-increment: new-counter;
+}
+
+desiner-code > pre > code.code-pre > div:before {
+	content: counter(new-counter);
+	color: #fff;
+	margin-right: 15px;
+	margin-left: -35px;
+	padding: 0;
+	font-weight: normal;
+	font-size: 14px;
+	position: relative;
+	right: -22px;
+	background: #3e4552;
+	margin-right: 35px;
+	padding: 2px 1%;
+	width: 17px;
+	display: inline-flex;
+	justify-content: center;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+}
+
+desiner-code > pre > code.code-pre > div:last-child:before {
+	height: 100%;
+}
+
+.name-code {
+	pointer-events: none;
+	position: absolute;
+	right: 6px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	background-color: #46536b;
+	padding: 2px 9px;
+	border-radius: 20px;
+	top: 5px;
+	font-size: 14px;
+}
+
+.title-code {
+	height: max-content;
+	width: 100%;
+	position: absolute;
+	background: #3e4552;
+	box-sizing: border-box;
+	padding: 7px 0px;
+	padding-right: 45px;
+	padding-left: 10px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	font-size: 14px;
+	pointer-events: none;
+	height: 30px;
+}
+
+.loader-code {
+	float: left;
+	font-size: 20px;
+}

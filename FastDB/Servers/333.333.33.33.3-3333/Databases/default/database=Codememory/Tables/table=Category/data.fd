@@ -1,0 +1,19 @@
+{
+    "data": {
+        "0": {
+            "id": 20
+        },
+        "1": {
+            "id": 50
+        },
+        "3": {
+            "id": "null"
+        }
+    },
+    "statistics": {
+        "last-request": "2020-09-28 21:00",
+        "all-request": 8001,
+        "id-last-add-record": 3,
+        "date-create": "2020-09-20 14:18"
+    }
+}

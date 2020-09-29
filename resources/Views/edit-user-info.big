@@ -1,0 +1,61 @@
+[@theme(header)]
+[@theme(menu)]
+
+[@assets(css,libs/selector)]
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>Создание Пользователя</span>
+        </div>
+        <div class="content-abs">
+            [@theme(flash)]
+            <form action="[[ route('FastDB.edit-user-handler') ]]?login=[[ Request::get('login') ]]" method="POST" class="column" style="width: 400px">
+                <input type="hidden" name="cdm_token" value="[[ protection_token() ]]">
+                <h6>Основные</h6>
+                <div class="hr-light" style="width: 100%"></div>
+                <div>
+                    <label for="">Имя пользователя</label>
+                    <input type="text" name="username" placeholder="Имя пользователя" value="[[ $userdata['username'] ]]">
+                </div>
+                <div>
+                    <label for="">Пароль</label>
+                    <input type="password" name="password" placeholder="Пароль пользователя" value="[[ base64_decode($userdata['password']) ]]">
+                </div>
+                <h6>Удаленные данные</h6>
+                <div class="hr-light" style="width: 100%"></div>
+                <div style="display: flex;">
+                    <label for="" style="flex: 1;">Сохранять удаленные данные</label>
+                    <input type="checkbox" name="save-deleted-data" class="on-off" [[ $userdata['deleted-data']['save'] === true ? 'checked' : '' ]]>
+                </div>
+                <div style="display: flex;">
+                    <label for="" style="flex: 1;">Локально</label>
+                    <input type="radio" name="as-save-deleted-data" class="on-off" value="local" [[ $userdata['deleted-data']['asa'] === 'local' ? 'checked' : '' ]]>
+                </div>
+                <div style="display: flex;">
+                    <label for="" style="flex: 1;">На сервере</label>
+                    <input type="radio" name="as-save-deleted-data" class="on-off" value="server" [[ $userdata['deleted-data']['asa'] === 'server' ? 'checked' : '' ]]>
+                </div>
+                <h6>Другое</h6>
+                <div class="hr-light" style="width: 100%"></div>
+                <div style="display: block;position: relative;top:10px">
+                    <label for="">Количество памяти</label>
+                    <input style="width: 100%" type="range" id="range-memory-in-create-user" name="max-memory" min="10" max="600" value="[[ $userdata['memory']['of'] ]]">
+                    <mark style="position: absolute;top: -10px;right: 0;"><span class="num-select-memory">[[ $userdata['memory']['of'] ]]</span> MB</mark>
+                </div>
+                <div style="display: flex;position: relative;top:10px">
+                    <label for="" style="flex: 1;">Freeze Account</label>
+                    <input type="checkbox" empty-checkbox="true" name="freeze-account" class="on-off" [[ $userdata['freeze-account'] === true ? 'checked' : '' ]]>
+                </div>
+                <div>
+                    <button class="btn btn-success" style="margin: 0px;" btn-loader="default">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+[@theme(footer)]

@@ -1,0 +1,10 @@
+{
+    "column-0": {
+        "name-column": "id",
+        "type": "int",
+        "length": null,
+        "default": "null",
+        "other-default": "",
+        "charset": "UTF-8"
+    }
+}

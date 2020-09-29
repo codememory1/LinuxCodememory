@@ -1,0 +1,6 @@
+[@if Flash::has('flash-error') === true]
+[php ($flash = Flash::get('flash-error')) php]
+	<div class="flash flash-[[ array_key_first($flash) ]]">
+		<span class="message-flash">[[ array_shift($flash) ]]</span>
+	</div>
+[@endIf]
