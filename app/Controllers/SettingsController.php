@@ -10,7 +10,14 @@ use System\Codememory\AbstractComponent\Controller;
  */
 class SettingsController extends Controller
 {
-    
+        
+    /**
+     * settingsModel
+     *
+     * @var mixed
+     */
+    private $settingsModel;
+
     /**
      * common
      *
@@ -28,6 +35,7 @@ class SettingsController extends Controller
         parent::__construct();
 
         $this->common = $this->model->load('Common');
+        $this->settingsModel = $this->model->load('Settings');
     }
     
     /**
@@ -40,9 +48,8 @@ class SettingsController extends Controller
 
         $reqAs = $this->request->post('as-save-deleted-data');
         $as = $reqAs != 'server' && $reqAs != 'local' ? 'server' : $reqAs;
-        $model = $this->model->load('Settings');
 
-        $model->editAsSavingDeletedData($as);
+        $this->settingsModel->editAsSavingDeletedData($as);
 
     }
     
@@ -55,9 +62,40 @@ class SettingsController extends Controller
     {
 
         $req = $this->request->post('save-deleted-data') == 'on' ? true : false;
-        $model = $this->model->load('Settings');
 
-        $model->turnSaveDeletedData($req);
+        $this->settingsModel->turnSaveDeletedData($req);
+
+    }
+
+    /**
+     * settings
+     *
+     * @return void
+     */
+    public function settings()
+    {
+        $usersModel = $this->model->load('Users');
+
+        $this->view->big('settings', ['userdata' => $usersModel->getInfoUserCurrent()]);
+
+    }
+    
+    /**
+     * updateUserToken
+     *
+     * @return void
+     */
+    public function updateUserToken()
+    {
+
+        $this->settingsModel->updateToken();
+
+    }
+
+    public function save()
+    {
+
+        $this->settingsModel->saveUserSettings();
 
     }
     

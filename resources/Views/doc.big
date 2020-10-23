@@ -1,0 +1,607 @@
+[@theme(menu-doc)]
+[php($link = Request::get('link'))php]
+
+[@if $link === 'commands_introduction']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.1 Команды - Введение</h3>
+        <div class="doc-similar-request"></div>
+        <div>
+            <p>
+                <b>Команды</b> - это обычная строка, которая выполняет какое-то действие.
+                <br>
+                <br>
+                Команды состоят из (<u>ключевых слов</u>, <u>Обязательных значений</u>, <u>Значений</u>, <u>Флагов</u>). 
+                <br>
+                Пример из одной команды <u>SHOW `ALL` OF TABLE `Test` FLAGS{ WHERE(`id` = `1`) }</u><br><br>
+                Параметр ( <b>`...`</b> ) - является обязательным для заполнения.<br>
+                Параметр ( <b>(...)</b> ) - является необязательным к заполнению. Но все зависит от команды, если в команде необходимо, то нужно указывать данный Параметр. <br>
+                Параметр ( <b>{...}</b> ) - тоже является необязательным. Но если параметр указан, то Параметры внутри должны быть тоже указаны.
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_instruction']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.2 Команды - Инструкция</h3>
+        <div class="doc-similar-request"></div>
+        <div>
+            <p>
+                Как было сказано в теме <b>"Введение", </b>что команда это обычная строка. Но строка должна быть указана верно. <br><br>
+                Ключевые слова, а именно сама команда должна быть указана в <b>верхнем регистре,</b> чтобы не получить каких-либо ошибок.
+                <br><br>
+                Должны быть указаны все <b>обязательные</b> параметры. Параметры можно узнать в документации определенной команды.
+                <br><br>
+                Значения в некоторых случаях должны быть указаны в <b>экранированных кавычках</b> <b>( `` ).</b> Подробнее будет описано в документации каждой команды.
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_cmd-show']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.2.1 Команда SHOW</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Возврощает массив всех записей
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация команды</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Команда:</span><span>SHOW <mark>`$columns`</mark> OF TABLE <mark>`$table`</mark></span>
+                    </div>
+                    <div class="auto-width">
+                        <span>Доступность флагов:</span><span><mark>Доступно</mark></span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Пример</span>
+                        <span>Принимает</span>
+                    </div>
+                    <div class="columns">
+                        <span>$columns</span>
+                        <span>Обязательный</span>
+                        <span>`ALL`</span>
+                        <span>(ALL) или именна колонок через зяпятую</span>
+                    </div>
+                    <div class="columns">
+                        <span>$table</span>
+                        <span>Обязательный</span>
+                        <span>`Test`</span>
+                        <span>Имя Таблицы</span>
+                    </div>
+                </div>
+            </div>
+            <p>
+                <u>Примеры:</u>
+                <br>
+                <ul style="margin-left: 20px">
+                    <span>
+                        <b>SHOW</b> `<b>ALL</b>` <b>OF TABLE</b> `Test`
+                    </span>
+                    <br>
+                    <span>
+                        <b>SHOW</b> `id,name` <b>OF TABLE</b> `Test`
+                    </span>
+                    <br>
+                    <span>
+                        <b>SHOW</b> `<b>ALL</b>` <b>OF TABLE</b> `Test` <b>FLAGS</b>{ <b>WHERE</b>(`id` = `1`) }
+                    </span>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_cmd-embed']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.2.2 Команда EMBED</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Добавляет новую запись в таблицу
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация команды</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Команда:</span><span>EMBED RECORD IN TABLE `<mark>$table</mark>` COLUMNS(<mark>$columns</mark>) VALUES(<mark>$values</mark>)</span>
+                    </div>
+                    <div class="auto-width">
+                        <span>Доступность флагов:</span><span><mark>Не Доступно</mark></span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Пример</span>
+                        <span>Принимает</span>
+                    </div>
+                    <div class="columns">
+                        <span>$table</span>
+                        <span>Обязательный</span>
+                        <span>`Test`</span>
+                        <span>Имя Таблицы</span>
+                    </div>
+                    <div class="columns">
+                        <span>$columns</span>
+                        <span>Обязательный</span>
+                        <span>id,name</span>
+                        <span>Именна колонок в которые добавить данные</span>
+                    </div>
+                    <div class="columns">
+                        <span>$values</span>
+                        <span>Обязательный</span>
+                        <span>`20`,`Name`</span>
+                        <span>Значения в колонках</span>
+                    </div>
+                </div>
+            </div>
+            <p>
+                <u>Примеры:</u>
+                <br>
+                <ul style="margin-left: 20px">
+                    <span>
+                        <b>EMBED RECORD IN TABLE</b> `Test` <b>COLUMNS</b>(id,name) <b>VALUES</b>(`20`,`Name`)
+                    </span>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_cmd-update']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.2.3 Команда UPDATE</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Обновляет запись/записи в таблице
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация команды</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Команда:</span><span>UPDATE RECORD IN TABLE `<mark>$table</mark>` COLUMNS(<mark>$columns</mark>) VALUES(<mark>$values</mark>)</span>
+                    </div>
+                    <div class="auto-width">
+                        <span>Доступность флагов:</span><span><mark>Доступно</mark></span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Пример</span>
+                        <span>Принимает</span>
+                    </div>
+                    <div class="columns">
+                        <span>$table</span>
+                        <span>Обязательный</span>
+                        <span>`Test`</span>
+                        <span>Имя Таблицы</span>
+                    </div>
+                    <div class="columns">
+                        <span>$columns</span>
+                        <span>Обязательный</span>
+                        <span>id,name</span>
+                        <span>Именна колонок в которых обновить данные</span>
+                    </div>
+                    <div class="columns">
+                        <span>$values</span>
+                        <span>Обязательный</span>
+                        <span>`20`,`Name`</span>
+                        <span>Новые значения для колонок</span>
+                    </div>
+                </div>
+            </div>
+            <p>
+                <u>Примеры:</u>
+                <br>
+                <ul style="margin-left: 20px">
+                    <span>
+                        <b>UPDATE RECORD IN TABLE</b> `Test` <b>COLUMNS</b>(id,name) <b>VALUES</b>(`20`,`New Name`) <u>- обновит все записи в таблице</u>
+                    </span>
+                    <br>
+                    <span>
+                        <b>UPDATE RECORD IN TABLE</b> `Test` <b>COLUMNS</b>(id,name) <b>VALUES</b>(`20`,`New Name`) <b>FLAGS</b>{ <b>WHERE</b>(`id` = `19`) } <u>- обновит запись с id 19</u>
+                    </span>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_cmd-delete']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.2.4 Команда DELETE</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Удаляет запись/записи
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация команды</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Команда:</span><span>DELETE RECORD OF TABLE `<mark>$table</mark>`</span>
+                    </div>
+                    <div class="auto-width">
+                        <span>Доступность флагов:</span><span><mark>Доступно</mark></span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Пример</span>
+                        <span>Принимает</span>
+                    </div>
+                    <div class="columns">
+                        <span>$table</span>
+                        <span>Обязательный</span>
+                        <span>`Test`</span>
+                        <span>Имя Таблицы</span>
+                    </div>
+                </div>
+            </div>
+            <p>
+                <u>Примеры:</u>
+                <br>
+                <ul style="margin-left: 20px">
+                    <span>
+                        <b>DELETE RECORD OF TABLE</b> `Test` <u> - удалит все записи в таблице</u>
+                    </span>
+                    <br>
+                    <span>
+                        <b>DELETE RECORD OF TABLE</b> `Test` <b>FLAGS</b>{ <b>WHERE</b>(`id` = `19`) } <u>- удалит запись с id 19</u>
+                    </span>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-where']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.2 Флаг WHERE</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Флаг where предназначен для получение и прочее про определенным значениям в колонках
+            </span>
+        </div>
+        <div style="margin-bottom: 10px">
+            <u>Операторы сравнения</u>
+            <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                <ul style="margin-left: 20px;width: max-content;" class="separator-where">
+                    <div>
+                        <span><b class="doc-note">=</b> Равно</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note">!=</b> Не Равно</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note">></b> Больше</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note"><</b> Меньше</span>
+                    </div>
+                </ul>
+                <ul style="margin-left: 20px;width: max-content;" class="separator-where">
+                    <div>
+                        <span><b class="doc-note">>=</b> Больше или Равно</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note"><=</b> Меньше или Равно</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note"><></b> Меньше или Больше</span>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация о флаге</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Флаг:</span><span>WHERE(`<mark>$column</mark>` <mark>$symbol</mark> `<mark>$value</mark>`)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Описание параметра</span>
+                    </div>
+                    <div class="columns">
+                        <span>$column</span>
+                        <span>Обязательный</span>
+                        <span>Имя колонки из таблицы</span>    
+                    </div>
+                    <div class="columns">
+                        <span>$symbol</span>
+                        <span>Обязательный</span>
+                        <span>Оператор сравнение</span>    
+                    </div>
+                    <div class="columns">
+                        <span>$value</span>
+                        <span>Обязательный</span>
+                        <span>Значение</span>    
+                    </div>
+                </div>
+            </div>
+            <p>
+                Ключевое слово <u>AND</u> продолжает использование условий. Пример использование флага <u>WHERE</u>: <br>
+                <b>WHERE</b>(`id` <b>=</b> `12`) <br>
+                <b>WHERE</b>(`id` <b>=</b> `12` <b>AND</b> `name` <b>=</b> `NameUser`)
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-limit']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.3 Флаг LIMIT</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Флаг limit выполняет действие с промежутком
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация о флаге</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Флаг:</span><span>LIMIT(<mark>$from</mark> , <mark>$before</mark>)</span>
+                    </div>
+                </div>
+            </div>
+            <p>
+                Указывая 2 параметра в этом случае будет выполняется условие между промежутком <b>$from</b> до <b>$before</b>. <br> Указывая только параметр <b>$from</b>, то будет выполнять условие от <b>$from</b> до кол-во записей в таблице. <br><br>
+            </p>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Описание параметра</span>
+                    </div>
+                    <div class="columns">
+                        <span>$from</span>
+                        <span>Обязательный</span>
+                        <span>От Записи</span> 
+                    </div>
+                    <div class="columns">
+                        <span>$before</span>
+                        <span>Необязательный</span>
+                        <span>До Записи</span>    
+                    </div>
+                </div>
+            </div>
+            <p>
+                Пример использование флага <b>LIMIT</b>:
+                <br>
+                <b>LIMIT(10,20)</b><br>
+                <b>LIMIT(10)</b>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-sort-by-numbers']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.4 Флаг SORT-BY-NUMBERS</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Флаг sort-by-numbers сортировка данных по числам
+            </span>
+        </div>
+        <div style="margin-bottom: 10px">
+            <u>Опции сортировки</u>
+            <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                <ul style="margin-left: 20px;width: max-content;" class="separator-where">
+                    <div>
+                        <span><b class="doc-note" style="width: 60px">less</b> От Меньшего</span>
+                    </div>
+                    <div>
+                        <span><b class="doc-note" style="width: 60px">more</b> От большего</span>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация о флаге</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Флаг:</span><span>SORT(`<mark>$column</mark>` = `<mark>$option</mark>`)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Описание параметра</span>
+                    </div>
+                    <div class="columns">
+                        <span>$column</span>
+                        <span>Обязательный</span>
+                        <span>Имя колонки по которой сортировать</span> 
+                    </div>
+                    <div class="columns">
+                        <span>$option</span>
+                        <span>Обязательный</span>
+                        <span>Опция сортировки</span>    
+                    </div>
+                </div>
+            </div>
+            <p>
+                Пример использование флага <b>SORT</b>:
+                <br>
+                <b>SORT</b>(`id`, `<b>more</b>`)<br>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-if']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.5 Флаг IF</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Флаг if выполняет условие по регулярному выражению
+            </span>
+        </div>
+        <div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Информация о флаге</span>
+                <div class="doc-content-desin-block">
+                    <div class="auto-width">
+                        <span>Флаг:</span><span>IF(`<mark>$column</mark>` `<mark>$regexp</mark>` <mark>$flags</mark>)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-desin-block">
+                <span class="title-desing-block">Параметры</span>
+                <div class="doc-content-desin-block">
+                    <div class="columns columns-bg">
+                        <span>Параметр</span>
+                        <span>Статус</span>
+                        <span>Описание параметра</span>
+                    </div>
+                    <div class="columns">
+                        <span>$column</span>
+                        <span>Обязательный</span>
+                        <span>Имя колонки по которой выполнять regexp</span> 
+                    </div>
+                    <div class="columns">
+                        <span>$regexp</span>
+                        <span>Обязательный</span>
+                        <span>Регулярное выражение без слешей начала regexp</span>    
+                    </div>
+                    <div class="columns">
+                        <span>$flags</span>
+                        <span>Необязательный</span>
+                        <span>Флаги regexp</span>    
+                    </div>
+                </div>
+            </div>
+            <p>
+                Пример использование флага <b>IF</b>:
+                <br>
+                <b>IF</b>(`id`, `^[0-9]+$`) <br>
+                <b>IF</b>(`name`, `^[a-z]+$`, <b>iu</b>)
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-notIf']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.6 Флаг NOT-IF</h3>
+        <div class="doc-similar-request"></div>
+        <div class="doc-note">
+            <span class="title-doc-note">описание: </span>
+            <span class="doc-note-text">
+                Флаг NOT-IF выполняет условие, если регулярное выражение не выполнилось
+            </span>
+        </div>
+        <div>
+            <p>
+                Флаг <b>(NOT-IF)</b> является тем же флагов, что и флаг (<b>IF</b>). Только в обратном направлении
+            </p>
+            <div class="hr-light"></div>
+            <p>
+                Пример использование флага <b>NOT-IF</b>:
+                <br>
+                <b>NOT-IF</b>(`id`, `^[0-9]+$`) <br>
+                <b>NOT-IF</b>(`name`, `^[a-z]+$`, <b>iu</b>)
+            </p>
+        </div>
+    </div>
+</div>
+
+[@elseIf $link === 'commands_available-Commands_flags-for-Teams_flag-instruction']
+<div class="perk-content-link">
+    <div class="doc-title-page">
+        <h3>1.3.1 Инструкция</h3>
+        <div class="doc-similar-request"></div>
+        <div>
+            <p>
+                <b>Флаги</b> - это по сути условия как в языках программирования. Использование флагов нужно понимать прицип работы определенного флага. <br>
+                Открывая документации определенного флага будет показана информация о флаге, принцип работы флага. <br>
+                <br>
+                - Все флаги должны вызываться в опции <b>FLAGS{}</b>. <br> 
+                - Между флагами должны быть пробелы. <br>
+                - Название каждого флага должно быть в <b>верхнем регистре</b>, чтобы не получить каких-либо ошибок. <br>
+                - Каждый флаг должен открываться и закрываться <b>обычными скобками.</b> <br>
+                - Каждый флаг должен принимать все обязательные параметры. Подробнее будет описанно в документации каждого флага. <br>
+                <br>
+                <u>Пример использование флагов:</u><br>
+                <ul style="margin-left: 20px;font-weight: 100;">
+                    <b>FLAGS</b>{ <b>WHERE</b>(`column` = `value`) <b>LIMIT</b>(1, 2) }
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+[@endIf]
+

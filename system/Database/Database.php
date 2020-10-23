@@ -36,8 +36,6 @@ class Database
         $username = Env::get('DB_USERNAME');
         $password = Env::get('DB_PASSWORD');
 
-        debug($password);
-
         if(!is_null($host) && !is_null($dbname) && !is_null($username))
         {
             $this->connect = \R::setup($this->renderDsn($server, $host, $dbname), $username, $password);
@@ -55,7 +53,7 @@ class Database
      * @param  mixed $dbname
      * @return void
      */
-    private function renderDsn($server, $host, $dbname)
+    private function renderDsn(string $server, string $host, string $dbname):string
     {
 
         $dsn = $server.':'.

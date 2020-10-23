@@ -16,6 +16,15 @@ Router::post('/auth', 'MainController@auth')->name('auth');
 Router::post('/auth/handler', 'MainController@handler')->name('auth-handler');
 
 ////////////////////////////////////////////////////////
+
+Router::get('/documentation/doc', 'DatabaseController@docs')->name('FastDB.docs');
+
+Router::get('/connection/:server/:login/:password', 'AuthController@connection')
+	->with('server', '(.*)')
+	->with('login', '(.*)')
+	->with('password', '(.*)')
+	->name('FastDB.local-connection');
+
 Router::access('AccessInFastDB', function() {
 	Router::group('/fastdb', function() {
 		
@@ -25,7 +34,12 @@ Router::access('AccessInFastDB', function() {
 		});
 
 		Router::access('AuthFastDB', function() {
+			Router::get('/customize-config', 'DatabaseController@customizeConfig')->name('FastDB.customize-config');
+			Router::post('/representation/handler', 'DatabaseController@representationHandler')->name('FastDB.representation-handler');
+			Router::get('/representation', 'DatabaseController@representation')->name('FastDB.representation');
 			Router::get('/all-db', 'DatabaseController@allDb')->name('FastDB.all-db');
+			Router::get('/settings', 'SettingsController@settings')->name('FastDB.settings');
+			Router::get('/console', 'DatabaseController@console')->name('FastDB.console');
 			Router::get('/logout', 'AuthController@logout')->name('FastDB.logout');
 			Router::get('/auth/confirm', 'AuthController@confirm')->name('FastDB.configm-auth');
 			Router::post('/auth/confirm/handler', 'AuthController@confirmHandler')->name('FastDB.configm-auth-handler');
@@ -34,6 +48,7 @@ Router::access('AccessInFastDB', function() {
 			Router::get('/history/delete/:id', 'HistoryController@delete')
 			->with('id', '([0-9]+)')
 			->name('FastDB.history-delete');
+			Router::get('/remote-data-storage', 'StorageController@view')->name('FastDB.remote-data-storage');
 
 			Router::group('/db', function() {
 				Router::get('/create', 'DatabaseController@createDb')->name('FastDB.create-db');
@@ -58,10 +73,15 @@ Router::access('AccessInFastDB', function() {
 				Router::get('/embed', 'TableController@embed')->name('FastDB.embed-data');
 				Router::post('/embed/handler', 'TableController@embedHandler')->name('FastDB.embed-data-handler');
 				Router::get('/edit/data', 'TableController@editData')->name('FastDB.edit-data-table');
+				Router::post('/edit/data/handler', 'TableController@editDataHandler')->name('FastDB.edit-data-table-handler');
+				Router::get('/edit/structure', 'TableController@editStructure')->name('FastDB.edit-structure');
+				Router::post('/edit/structure/handler', 'TableController@editStructureHandler')->name('FastDB.edit-structure-handler');
 			});
 			Router::group('/settings', function() {
 				Router::post('/saving-deleted-data', 'SettingsController@saveingDeletedData')->name('FastDB.saving-deleted-data');
 				Router::post('/turn-deleted-data', 'SettingsController@turnDeletedData')->name('FastDB.turn-deleted-data');
+				Router::get('/update-user-token', 'SettingsController@updateUserToken')->name('FastDB.update-user-token');
+				Router::post('/save', 'SettingsController@save')->name('FastDB.save-settings');
 			});
 			Router::group('/users', function() {
 				Router::get('/list', 'UsersController@list')->name('FastDB.list-users');

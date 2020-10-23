@@ -1,20 +1,40 @@
 {
     "data": {
         "1": {
-            "life": 1601739014,
-            "id": 19,
-            "name": "null",
+            "life": -1,
+            "id": 43,
+            "name": "Danil",
             "price": "0.00",
             "prosent": "10",
-            "date": "2020-09-28",
-            "date_time": "2020-09-28 18:30:14",
-            "timestamp": 1601307014
+            "date": "2020-10-06",
+            "date_time": "2020-10-06 00:02:39",
+            "timestamp": 1601931759
+        },
+        "2": {
+            "life": -1,
+            "id": 45,
+            "name": "Danil Kostyndc",
+            "price": "0.00",
+            "prosent": 45,
+            "date": "2020-10-06",
+            "date_time": "2020-10-06 00:03:21",
+            "timestamp": "0000-00-00 00:00:00"
+        },
+        "3": {
+            "life": -1,
+            "id": 46,
+            "name": "Danil+ACM-3",
+            "price": "0.00",
+            "prosent": "10",
+            "date": "2020-10-06",
+            "date_time": "2020-10-06 00:03:35",
+            "timestamp": 1601931815
         }
     },
     "statistics": {
-        "last-request": "2020-09-28 21:03",
-        "all-request": 25,
-        "id-last-add-record": 2,
+        "last-request": "2020-10-08 21:20",
+        "all-request": 88,
+        "id-last-add-record": 5,
         "date-create": "2020-09-27 23:01"
     }
 }

@@ -29,6 +29,7 @@ class UsersController extends Controller
         parent::__construct();
 
         $this->common = $this->model->load('Common');
+        $this->usersModel = $this->model->load('Users');
     }
     
     /**
@@ -40,9 +41,8 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('check-all-users');
-        $model = $this->model->load('Users');
 
-        $this->view->big('list-users', ['users' => $model->getInfoUsers()]);
+        $this->view->big('list-users', ['users' => $this->usersModel->getInfoUsers()]);
         
     }
 
@@ -55,9 +55,8 @@ class UsersController extends Controller
     {
 
         $req = $this->request->post('banned-account') == 'on' ? true : false;
-        $model = $this->model->load('Users');
 
-        $model->bannedAccount($this->request->post('user-hash'), $req);
+        $this->usersModel->bannedAccount($this->request->post('user-hash'), $req);
 
     }
     
@@ -85,8 +84,7 @@ class UsersController extends Controller
         $this->common->checkAccess('create-user');
 
         if($this->common->invalidToken() === true && $this->common->memoryCheck() === true) {  
-            $model = $this->model->load('Users');
-            $model->createUser(); 
+            $this->usersModel->createUser(); 
         }
 
     }
@@ -101,9 +99,8 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('delete-user');
-        $model = $this->model->load('Users');
 
-        $model->deleteUser($this->request->get('login') ?? '?');
+        $this->usersModel->deleteUser($this->request->get('login') ?? '?');
 
     }
     
@@ -116,9 +113,8 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('edit-user-access');
-        $model = $this->model->load('Users');
 
-        if($model->existsUser('opened', $this->request->get('login')) === false) {
+        if($this->usersModel->existsUser('opened', $this->request->get('login')) === false) {
             Response::setResponseCode(404)->getContentResponseCode();
         }
         $this->view->big('edit-user-access', ['common' => $this->common]);
@@ -134,14 +130,13 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('edit-user-access');
-        $model = $this->model->load('Users');
 
         if($model->existsUser('opened', $this->request->get('login')) === false) {
             Response::setResponseCode(404)->getContentResponseCode();
         }
 
         if($this->common->invalidToken() === true) {
-            $model->editAccess($this->request->get('login'));
+            $this->usersModel->editAccess($this->request->get('login'));
         }
 
     }
@@ -155,14 +150,13 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('edit-user-info');
-        $model = $this->model->load('Users');
         $username = $this->request->get('login');
 
-        if($model->existsUser('opened', $username) === false) {
+        if($this->usersModel->existsUser('opened', $username) === false) {
             Response::setResponseCode(404)->getContentResponseCode();
         }
 
-        $this->view->big('edit-user-info', ['userdata' => $model->getUserData($model->getFullServer('server-dir'), $username)]);
+        $this->view->big('edit-user-info', ['userdata' => $this->usersModel->getUserData($this->usersModel->getFullServer('server-dir'), $username)]);
 
     }
     
@@ -175,21 +169,20 @@ class UsersController extends Controller
     {
 
         $this->common->checkAccess('edit-user-info');
-
-        $model = $this->model->load('Users');
         $username = $this->request->get('login');
         
-        if($model->existsUser('opened', $username) === false) {
+        if($this->usersModel->existsUser('opened', $username) === false) {
             Response::setResponseCode(404)->getContentResponseCode();
         }
 
         if($this->common->invalidToken() === true) {
-            if($this->session->get('confirm-auth') !== true) {
-                \Redirector::his(route('FastDB.configm-auth'))->redirect();
-            }
-            else {
-                $model->editInfoUser($username);
-            }
+            // if($this->session->get('confirm-auth') !== null && ($this->session->get('confirm-auth') === $this->request->get('token-confirm-auth'))) {
+            //     $model->editInfoUser($username);
+            // }
+            // else {
+            //     \Redirector::his(route('FastDB.configm-auth'))->redirect();
+            // }
+            $this->usersModel->editInfoUser($username);
         }
 
     }

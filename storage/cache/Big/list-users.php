@@ -28,15 +28,15 @@
                         </thead>
                         <tbody>
                             <?php foreach($users as $k => $user): ?>
-                                <?php $countAccessTrue = 0?>
+                                <?php $countAccessTrue = 0;?>
                                 <?php foreach($user['access-rights'] as $status): ?>
-                                    <?php $status === true ? $countAccessTrue++ : null?>
+                                    <?php $status === true ? $countAccessTrue++ : null;?>
                                 <?php endforeach; ?>
-                                <?php $prosentAccess = round($countAccessTrue / count($user['access-rights']) * 100)?>
+                                <?php $prosentAccess = round($countAccessTrue / count($user['access-rights']) * 100);?>
                                 <tr>
                                     <td><?php echo $user['username']; ?></td>
                                     <td><?php echo $user['server']; ?><span class="info">:</span><?php echo $user['port']; ?></td>
-                                    <td><?php echo empty($user['password']) ? '<i class="green fas fa-badge-check"></i>' : '<i class="red fal fa-times-circle"></i>'; ?></td>
+                                    <td><?php echo empty($user['password']) ? '<i class="red fal fa-times-circle"></i>' : '<i class="green fas fa-badge-check"></i>'; ?></td>
                                     <td><?php echo $prosentAccess > 99 ? '<span class="green">ALL</span>' : '<span class="red">NOT ALL</span>'; ?></td>
                                     <td>
                                         <input type="checkbox" name="freeze-account" class="banned-account on-off" <?php echo $user['freeze-account'] === true ? 'checked' : ''; ?> user-hash="<?php echo $user['hash']; ?>">

@@ -497,6 +497,7 @@ window.onload = (loaded) => {
 
     const changeFetch = function(url, method, data) {
         let dataFetch;
+
         if (method === 'GET') {
             dataFetch = {
                 method: method
@@ -508,22 +509,34 @@ window.onload = (loaded) => {
             };
         }
 
-        fetch(url, dataFetch).then(response => {
+        return fetch(url, dataFetch).then(response => {
 
             if (response.ok === false) {
                 notification('warning', errors.fetch_request_error);
             }
 
-            response.text().then(data => {
+            let res = response.text().then(data => {
+                sendResponse = true;
+                window.fetchResponse = data;
                 console.log(data);
-                const jsonData = JSON.parse(data);
-                notification(jsonData.status, jsonData.message);
 
-                if (jsonData.redirect) {
-                    location.href = jsonData.redirect;
+                let jsonData = null;
+
+                try {
+                    jsonData = JSON.parse(data);
+                } catch(e) {
+                    console.error('Error Send Fetch request!');
                 }
-            })
-        })
+
+                if(jsonData !== null) {
+                    notification(jsonData.status, jsonData.message);
+
+                    if (jsonData.redirect) {
+                        location.href = jsonData.redirect;
+                    }
+                }
+            });
+        });
     };
 
     document.querySelectorAll('#as-save-deleted-data').forEach((el) => {
@@ -830,11 +843,8 @@ window.onload = (loaded) => {
 
             inputEdit.onblur = function() {
                 const value = this.value;
-                contextNew.innerHTML = value;
 
-                if (o[k].getAttribute('edit-field-func')) {
-                    editorField(el, o, o[k]);
-                }
+                editorField(inputEdit, el, contextNew, value, o, o[k]);
             };
 
             inputEdit.onkeyup = function(e) {
@@ -852,8 +862,23 @@ window.onload = (loaded) => {
     });
 
     // Обработчик для edit-field
-    function editorField(el, element, object) {
+    function editorField(input, el, contextNew, value, element, object) {
+        if(el.getAttribute('id') === 'td-data-table') {
+            input.innerHTML = input.value;
+            el.style.position = 'relative';
+            el.style.paddingRight = '40px';
+            contextNew.innerHTML += "<i style='position: absolute;right: 2%;color: lime;top: 39%;transform: translateY(-50%);font-size: 21px;' class='far fa-spinner-third fa-spin'></i>";
+            
+            let data = {};
+            data[el.getAttribute('name-column')] = value;
 
+            changeFetch('/fastdb/table/edit/data/handler?ajax=1&dbname=' + dbname + '&table=' + table + '&id=' + el.getAttribute('data-id'), 'POST', data)
+                .then(() => {
+                    el.innerHTML = value;
+                    el.style.paddingRight = '10px';
+                });
+        }
+    
     }
 
 
@@ -988,24 +1013,113 @@ window.onload = (loaded) => {
         });
     }
 
-    // Сохраняем текущее время в sessionStorage
-// Как только любая ссылка будет нажата, выполнение остановится
-function check_speed() {
-    sessionStorage.now = Date.now();
-    setTimeout(check_speed, 25);
-}
-
-// Вешаем обработчик на полную загрузку страницы
-window.onload = function() {
-    var now = Date.now();
-    if ( sessionStorage.now ) {
-        var loaded_in = now - parseInt(sessionStorage.now);
-        // отправляем значение loaded_in на сервер
-        // значение в миллисекундах
-        console.log(loaded_in);
+    let consoleInput = document.querySelector('.console-input');
+    function setCaret(contentEditableElement, index)
+    {
+           var range,selection;
+           if(document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+           {
+               range = document.createRange();//Create a range (a range is a like the selection but invisible)
+               range.setStart(contentEditableElement,index);
+               range.collapse(true);
+               selection = window.getSelection();//get the selection object (allows you to change selection)
+               selection.removeAllRanges();//remove any selections already made
+               selection.addRange(range);//make the range you have just created the visible selection
+           }
+           else if(document.selection)//IE 8 and lower
+           { 
+               range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+               range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
+               range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+               range.select();//Select the range (make it the visible selection
+           }
     }
 
-    check_speed();
-};
+    if(consoleInput !== null) {
+        let registerKey = [
+            'SHOW', 'OF', 'TABLE', 'FLAGS', 'EMBED', 'RECORD', 'IN', 'COLUMNS', 'VALUES', 'UPDATE', 'DELETE'
+        ];
+        let flags = [
+            'WHERE', 'LIMIT', 'SORT', 'IF', 'NOT-IF'
+        ];
+        let newText = consoleInput.innerText;
 
+        consoleInput.addEventListener('input', function(e) {
+            let positionCursor = getSelection().focusOffset;
+            let input = consoleInput.innerText;
+
+            const replaceKey = function(text) {
+                let span = document.createElement('span');
+                span.style.color = 'red';
+                span.innerHTML = text;
+
+                return span.outerHTML;
+            }
+
+            for(let i = 0; i < registerKey.length; i++) {
+                let e = registerKey[i];
+
+                const regexKey = new RegExp('\\' + e, 'gm');
+
+                input = input.replace(regexKey, replaceKey(e));
+            }
+            
+            consoleInput.innerHTML = input;
+            let stringCode = document.querySelector('.console-input').innerHTML;
+
+            consoleInput.onkeydown = function(e) {
+                if(e.keyCode === 32) consoleInput.innerHTML += ' ';
+            };
+
+            setCaret(consoleInput, getSelection().anchorOffset + 1);
+
+
+        }, false);
+    }
+
+    const eyeUserToken = document.querySelector('.eye-token');
+    const eyeUserTokenInput = document.querySelector('.input-user-token');
+
+    if(eyeUserToken !== null && eyeUserTokenInput !== null) {
+        eyeUserToken.onclick = function() {
+            if(this.classList.contains('active')) {
+                this.classList.remove('active');
+            } else {
+                this.classList.add('active');
+            }
+
+            if(eyeUserTokenInput.classList.contains('active')) {
+                eyeUserTokenInput.classList.remove('active');
+            } else {
+                eyeUserTokenInput.classList.add('active');
+            }
+        };
+    }
+
+    const btnEditPassword = document.querySelector('.btn-edit-user-password');
+    const blockEditPass = document.querySelector('.edit-password-user');
+
+    if(btnEditPassword !== null && blockEditPass !== null) {
+        btnEditPassword.onclick = () => {
+            if(blockEditPass.classList.contains('active')) {
+                blockEditPass.classList.remove('active');
+            } else {
+                blockEditPass.classList.add('active');
+            }
+        };
+    }
+
+    const updateUserToken = document.querySelector('.update-user-token');
+    const inputShowToken = document.querySelector('.input-user-token');
+
+    if(updateUserToken !== null && inputShowToken !== null) {
+        updateUserToken.onclick = () => {
+            changeFetch('/fastdb/settings/update-user-token', 'GET').then(result => {
+                setTimeout(() => {
+                    let response = JSON.parse(window.fetchResponse);
+                    inputShowToken.value = response.token;
+                });
+            });
+        };
+    }
 }

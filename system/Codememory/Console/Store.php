@@ -65,10 +65,12 @@ class Store
      * @param  mixed $data
      * @return void
      */
-    public function update(string $path, $data)
+    public function update(string $path, $data, string $prefix = null)
     {
 
-        file_put_contents(Url::rootPath().$path, $data);
+        $prefix = $prefix === null ? Url::rootPath() : $prefix;
+
+        file_put_contents($prefix.$path, $data);
 
     }
     
@@ -126,11 +128,13 @@ class Store
      * @param  mixed $dir
      * @return void
      */
-    public function createDir($dir)
+    public function createDir($dir, string $prefix = null)
     {
-        if($this->isDir($dir) === false)
+        $prefix = $prefix === null ? Url::rootPath() : $prefix;
+
+        if($this->isDir($dir, $prefix) === false)
         {
-            mkdir(Url::join($dir));
+            mkdir($prefix.$dir);
         }
     }
     
@@ -243,18 +247,23 @@ class Store
      * @param  string  $path
      * @return bool
      */
-    public function isDir($path)
+    public function isDir($path, ?string $prefix = null)
     {
-        return (is_dir(Url::rootPath().$path)) ? true : false;
+        $prefix = $prefix === null ? Url::rootPath() : $prefix;
+
+        return (is_dir($prefix.$path)) ? true : false;
     }
     
     /**
      * @param  string  $path
      * @return bool
      */
-    public function isFile($path)
+    public function isFile($path, ?string $prefix = null)
     {
-        return (is_file(Url::rootPath().$path)) ? true : false;
+
+        $prefix = $prefix === null ? Url::rootPath() : $prefix;
+
+        return (is_file($prefix.$path)) ? true : false;
     }
     
     /**

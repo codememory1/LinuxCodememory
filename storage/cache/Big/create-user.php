@@ -54,7 +54,10 @@
                         <div style="position: relative;left: 20px;margin-top: 6px">
                             <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[create-table]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Создание Таблицы</span></label>
                             <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[watch-table]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Просмотр Таблиц</span></label>
+                            <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[edit-tabel-data]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Редактирование Записей</span></label>
+                            <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[embed-data-table]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Вставлять Данные</span></label>
                             <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[delete-table]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Удаление Таблицы</span></label>
+                            <label for=""><input type="checkbox" empty-checkbox="true" name="privilege[cleans-table]" select-checkbox="all-privileges" class="marker"> <span class="span-privilege">Очищать таблицы</span></label>
                         </div>
                         <h6>Пользователи</h6>
                         <div style="position: relative;left: 20px;margin-top: 6px">

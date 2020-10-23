@@ -121,6 +121,8 @@ class UsersModel extends RegisterService
             'success_edit_info_user'     => 'Данные пользователя успешно изменены'
         ];
 
+        if($this->request->get('json')) echo Response::arrayToJson(['response' => $errors[$key]]);
+
         return $errors[$key];
 
     }
@@ -162,6 +164,18 @@ class UsersModel extends RegisterService
     }
     
     /**
+     * getInfoUserCurrent
+     *
+     * @return void
+     */
+    public function getInfoUserCurrent()
+    {
+
+        return $this->getInfoUsers()[$this->getUsername()];
+
+    }
+    
+    /**
      * bannedAccount
      *
      * @param  mixed $hash
@@ -197,8 +211,13 @@ class UsersModel extends RegisterService
      */
     private function validatorInputUser()
     {
+        $info = $this->getInfoUsers()[$this->request->get('login')];
 
-        $validate = Validator::field('username', $this->request->post('username'))
+        $username = replaceArrayValue([$this->request->post('username')], [$info['username']], 'username');
+        $saveAs = replaceArrayValue([$this->request->post('as-save-deleted-data')], [$info['deleted-data']['asa']], 'saveAs')['saveAs'];
+        $freeze = replaceArrayValue([$this->request->post('as-save-deleted-data')], [$info['freeze-account']], 'freeze-account')['freeze-account'] === true ? 'on' : 'off';
+
+        $validate = Validator::field('username', $username['username'])
             ->with('username', function($validator) {
                 $validator->validation('min:5')
                     ->setMessage($this->getError('username_min_symbol'))
@@ -207,12 +226,12 @@ class UsersModel extends RegisterService
                 ->validation('regular:/^[a-z0-9\_]+$/i')
                     ->setMessage($this->getError('username_regular'));
             })
-            ->field('save-deleted-data-as', $this->request->post('as-save-deleted-data'))
+            ->field('save-deleted-data-as', $saveAs)
             ->with('save-deleted-data-as', function($validator) {
                 $validator->validation('only:(server,local)')
                     ->setMessage($this->getError('invalid_info_checkbox'));
             })
-            ->field('freeze-account', $this->request->post('freeze-account'))
+            ->field('freeze-account', $freeze)
             ->with('freeze-account', function($validator) {
                 $validator->validation('only:(on,off)')
                     ->setMessage($this->getError('invalid_info_checkbox'));
@@ -232,6 +251,7 @@ class UsersModel extends RegisterService
     {
 
         if($this->request->post('max-memory') > 600 || $this->request->post('max-memory') < 50) {
+            
             Flash::name('flash-error')->add('error', $this->getError('error_select_mememory'));
         } else {
             return true;
@@ -350,7 +370,7 @@ class UsersModel extends RegisterService
      */
     public function createUser()
     {
-
+        
         $this->validateCreateUser();
 
         Redirector::back()->redirect();
@@ -435,20 +455,69 @@ class UsersModel extends RegisterService
         });
 
         Store::editJsonFile($pathOpenedUser.'/information-user.fd')->editJsonData(function($data) {
-            $data['username'] = $this->request->post('username');
-            $data['password'] = base64_encode($this->request->post('password'));
-            $data['deleted-data']['save'] = $this->request->post('save-deleted-data') === 'on' ? true : false;
-            $data['deleted-data']['asa'] = $this->request->post('as-save-deleted-data');
-            $data['memory']['of'] = $this->request->post('max-memory');
-            $data['freeze-account'] = $this->request->post('freeze-account') === 'on' ? true : false;
+            $commonData = replaceArrayValue([$this->request->post('username'), base64_encode($this->request->post('password')), $this->request->post('freeze-account') === 'on' ? true : false], [$data['username'], $data['password'], $data['freeze-account']], 'username', 'password', 'freeze-account');
+
+            foreach($commonData as $k => $v)
+            {
+                $data[$k] = $v;
+            }
+
+            $store = replaceArrayValue(
+                [$this->request->post('save-deleted-data') === 'on' ? true : false, $this->request->post('as-save-deleted-data')],
+                [$data['deleted-data'], $data['asa']],
+                'save', 'asa'
+            );
+
+            foreach($store as $k => $v)
+            {
+                $data['deleted-data'][$k] = $v;
+            }
+
+            $memory = replaceArrayValue(
+                [$this->request->post('max-memory')],
+                [$data['memory']['of']],
+                'of'
+            );
+
+            foreach($memory as $k => $v)
+            {
+                $data['memory'][$k] = $v;
+            }
 
             return $data;
         });
 
         Store::move($path.$username, $path.$newUsername);
         Flash::name('flash-error')->add('success', $this->getError('success_edit_info_user'));
+        // $this->session->remove('confirm-auth');
 
         Redirector::his(route('FastDB.edit-user').'?login='.$newUsername)->redirect();
+
+    }
+    
+    /**
+     * getAutoInfoUser
+     *
+     * @param  mixed $username
+     * @return array
+     */
+    private function getAutoInfoUser(string $username):array
+    {
+
+        $info = $this->getInfoUsers()[$username];
+
+        $data = replaceArrayValue([
+            $this->request->post('username'),
+            $this->request->post('password'),
+            $this->request->post('max-memory')
+        ],
+        [
+            $info['username'],
+            $info['password'],
+            $info['memory']['of']
+        ],'username', 'password', 'max-mememory');
+
+        return $data;
 
     }
 
@@ -466,15 +535,17 @@ class UsersModel extends RegisterService
         $validate = true;
 
         if($validator->validated === true) {
+            
             if($this->validatorSelectMememoryUser() === true) {
                 $userdata = $this->getUserData($server, $username);
                 
-                if($userdata['username'] !== $this->request->post('username')) {
-                    $validate = $this->existsUser('opened', $this->request->post('username'));
-
-                    $this->existsUser('opened', $this->request->post('username')) === true ? Flash::name('flash-error')->add('error', $this->getError('user_exists')) : $this->handlerEditInfoUser($username, $this->request->post('username'));
+                if($userdata['username'] !== $this->getAutoInfoUser($username)['username']) {
+                    $validate = $this->existsUser('opened', $this->getAutoInfoUser($username)['username']);
+                    
+                    $this->existsUser('opened', $this->getAutoInfoUser($username)['username']) === true ? Flash::name('flash-error')->add('error', $this->getError('user_exists')) : $this->handlerEditInfoUser($username, $this->getAutoInfoUser($username)['username']);
                 } else {
-                    $this->handlerEditInfoUser($username, $this->request->post('username'));
+                    
+                    $this->handlerEditInfoUser($username, $this->getAutoInfoUser($username)['username']);
                 }
             }
         }

@@ -13,6 +13,12 @@
             <button class="btn btn-info btn-add-column" style="margin-left: 0;">Добавить Колонку</button>
             <form action="[[ route('FastDB.create-table-handler') ]]?dbname=[[ Request::get('dbname') ]]" method="POST" class="row full-column-width" style="width: 100%;" id="create-table-form" data-fetch>
                 <input type="text" class="num-add-column" placeholder="Название таблицы" name="table-name" style="width: max-content;margin-left: 6px;">
+                <label for="" style="margin-top: 10px;width:max-content;margin-left: 5px;">
+                    <input type="checkbox" name="add-column-life" class="on-off" checked>
+                    <span style="margin: 3px 6px;font-size: 14px;display: block;float: right;">
+                        Добавить колонки life
+                    </span>
+                </label>
                 <div class="sections-form-create-table">
                     <section class="full-width" data-id-column="-1" draggable="true">
                         <div>

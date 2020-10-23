@@ -12,7 +12,7 @@
             [@theme(flash)]
             <div style="height: 30px;margin-left: 5px;">
                 <a href="[[ route('FastDB.embed-data') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]" class="btn btn-success">Вставить Данные</a>
-                <a href="" class="btn btn-info">Редактировать структуру таблицы</a>
+                <a href="[[ route('FastDB.edit-structure') ]]?dbname=[[ $dbname ]]&table=[[ $table ]]" class="btn btn-info">Редактировать структуру таблицы</a>
             </div>
             <div class="table_statistics grid">
                 <div class="content-statictic grid">
@@ -74,16 +74,16 @@
                                             [@foreach $data as $nameColumn => $dataValue]
                                                 [@if $column['name-column'] === 'life']
                                                     [@if $data[$column['name-column']] < 0]
-                                                        <td>
+                                                        <td edit-field="true" id="td-data-table" data-id="[[ $key ]]" name-column="[[ $column['name-column'] ]]" value-column="[[ $data[$column['name-column']] ]]">
                                                             [[ $data[$column['name-column']] ]]
                                                         </td>
                                                     [@else]
-                                                        <td>
+                                                        <td edit-field="true" id="td-data-table" data-id="[[ $key ]]" name-column="[[ $column['name-column'] ]]" value-column="[[ $data[$column['name-column']] ]]">
                                                             [[ $data[$column['name-column']] - Date::unix() ]]
                                                         </td>
                                                     [@endIf]
                                                     [@else]
-                                                    <td edit-field="true">[[ $data[$column['name-column']] ]]</td>
+                                                    <td edit-field="true" id="td-data-table" data-id="[[ $key ]]" name-column="[[ $column['name-column'] ]]" value-column="[[ $data[$column['name-column']] ]]">[[ $data[$column['name-column']] ]]</td>
                                                 [@endIf]
                                                 
                                                 [php(break)php]
@@ -129,6 +129,8 @@
             value: 'Статистика таблицы <span class="right" style="margin-top: 2px;"><input type="checkbox" class="on-off" id="check-staticic-table"></span>'
         }
     ]);
+    let dbname = '[[ $dbname ]]';
+    let table = '[[ $table ]]';
 </script>
 
 [@theme(footer)]

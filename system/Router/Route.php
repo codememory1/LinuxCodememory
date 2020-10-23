@@ -244,8 +244,9 @@ class Route
 						}
 					}
 				}
-				
+
 				return call_user_func_array([new $namespace(), $method], $this->matches);
+				
 			}		
 		}
 		   

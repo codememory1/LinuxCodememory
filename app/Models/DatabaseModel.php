@@ -80,6 +80,8 @@ class DatabaseModel extends RegisterService
             'foribidden_delete_db' => 'У вас нет прав для удаления данной БД.'
         ];
 
+        if($this->request->get('json')) echo Response::arrayToJson(['response' => $errors[$key]]);
+
         return $errors[$key];
 
     }
@@ -253,7 +255,7 @@ class DatabaseModel extends RegisterService
      *
      * @return void
      */
-    public function createDatabase()
+    public function createDatabase($reprModel)
     {
 
         $dbname = trim($this->request->post('db-name'));
@@ -275,6 +277,8 @@ class DatabaseModel extends RegisterService
         if($validate === true && $existsDB === true) {
             $this->create->createDatabase($this->getFullServer('server-dir'), $this->getUsername(), $dbname, $data);
             Flash::name('flash-error')->add('success', $this->getError('success_create_db'));
+
+            $reprModel->execRepresentation('CreateDatabase');
         }
 
         \Redirector::back()->redirect();

@@ -249,3 +249,65 @@ if (!function_exists('include_cm')) {
 		
 	}
 }
+
+if (!function_exists('renameArrayKey')) {
+	function renameArrayKey(array $array, $old_name, $new_name) 
+	{
+		$output = array();
+			
+		if (empty($array) || (empty($old_name) || !is_scalar($old_name)) || (empty($new_name) || !is_scalar($new_name))) {
+			return array();
+		}
+			
+		foreach ($array as $key => $value) {
+			
+			if (is_array($value)) {
+				$output[$key] = renameArrayKey($value, $old_name, $new_name);
+				continue;
+			}
+					
+			$should_rename = $key === $old_name;
+			$new_key = ($should_rename) ? $new_name : $key;
+			$output[$new_key] = $value;              
+		}
+			
+		return $output;
+	}
+}
+
+if (!function_exists('replaceArrayValue')) {
+	function replaceArrayValue(array $main, array $substitute, ...$substituteKyes):array
+	{
+		$newMain = [];
+		$newSubstitute = [];
+		$arrayData = [];
+		$returnData = [];
+
+		if($substituteKyes !== [] && array_key_exists(0, $substituteKyes) && (is_array($substituteKyes[0]))) $substituteKyes = $substituteKyes[0];
+
+		foreach($main as $value) $newMain[] = $value;
+		foreach($substitute as $value) $newSubstitute[] = $value;
+
+		for($i = 0; $i <= count($newMain); $i++)
+		{
+			if(array_key_exists($i, $newSubstitute)) {
+				$arrayData['main'][] = $newMain[$i];
+				$arrayData['substitute'][] = $newSubstitute[$i];
+			}
+		}
+
+		foreach($arrayData['main'] as $key => $valueData)
+		{
+			$value = (empty($valueData) || $valueData === null || $valueData == '') ? $arrayData['substitute'][$key] : $valueData;
+
+			if($substituteKyes !== []) {
+				if(array_key_exists($key, $substituteKyes)) $returnData[$substituteKyes[$key]] = $value;
+				else $returnData[] = $value;
+			} else {
+				$returnData[] = $value;
+			}
+		}
+
+		return $returnData;
+	}
+}

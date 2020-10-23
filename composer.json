@@ -19,7 +19,8 @@
         "dmamontov/rararchiver": "~1.0.0",
         "jasongrimes/paginator": "~1.0",
         "phpseclib/phpseclib": "~2.0",
-        "workerman/phpsocket.io": "^1.1"
+        "workerman/phpsocket.io": "^1.1",
+        "guzzlehttp/guzzle": "^7.1"
     },
     
     "autoload": {

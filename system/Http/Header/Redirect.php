@@ -101,5 +101,17 @@ class Redirect implements RedirectInterface
             return (empty($routes['Pattern'])) ? '/' : '/'.$routes['Pattern'];
         }
     }
+    
+    /**
+     * __toString
+     *
+     * @return void
+     */
+    public function __toString()
+    {
+        
+        return $this->uri;
+
+    }
 
 }

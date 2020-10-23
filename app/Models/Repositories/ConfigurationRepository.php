@@ -87,7 +87,7 @@ class ConfigurationRepository
     {
 
         $info = [
-            'username'     => Session::get('authorize')['login'] ?? Request::get('username'),
+            'username'     => Session::get('authorize')['login'] ?? Request::get('login-auth'),
             'password'     => Request::get('password'),
             'server'       => Session::get('authorize')['server'] ?? Request::get('server'),
             'dbname'       => Request::get('dbname'),

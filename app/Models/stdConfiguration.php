@@ -25,7 +25,7 @@ class stdConfiguration
     public function __set($property, $value)
     {
 
-        $this->propertys[$property] = is_array($value) ? json_decode(json_encode($value), false) : $value;
+        $this->propertys[$property] = $value;
 
         return $this;
 
@@ -41,6 +41,23 @@ class stdConfiguration
     {
 
         return $this->propertys[$property];
+
+    }
+    
+    /**
+     * __isset
+     *
+     * @param  mixed $property
+     * @return void
+     */
+    public function __isset($property)
+    {
+        
+        if(array_key_exists($property, $this->propertys)) {
+            return $this->propertys[$property];
+        }
+
+        return null;
 
     }
     

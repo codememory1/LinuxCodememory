@@ -12,7 +12,7 @@
         </div>
         <div class="content-abs">
             <?php echo \View::theme('flash'); ?>
-            <form action="<?php echo route('FastDB.embed-data-handler'); ?>?dbname=<?php echo Request::get('dbname'); ?>&table=<?php echo Request::get('table'); ?>" method="POST" class="column" style="width: 450px;">
+            <form action="<?php echo route('FastDB.edit-data-table-handler'); ?>?dbname=<?php echo Request::get('dbname'); ?>&table=<?php echo Request::get('table'); ?>&id=<?php echo Request::get('id'); ?>" method="POST" class="column" style="width: 450px;">
                 <input type="hidden" name="cdm_token"value="<?php echo protection_token(); ?>">
                 <div>
                     <label for="">Время жизни в Секундах «необязательно»</label>
@@ -30,7 +30,7 @@
                 <?php endforeach; ?>
 
                 <div>
-                    <button class="btn btn-success" style="margin: 0px;" btn-loader="default">Добавить</button>
+                    <button class="btn btn-success" style="margin: 0px;" btn-loader="default">Сохранить</button>
                 </div>
             </form>
         </div>

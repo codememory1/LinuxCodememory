@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fastdb>
+    <connection>
+        <server></server>
+        <port></port>
+        <username></username>
+        <password></password>
+    </connection>
+    <paths>
+        <migration path="" />
+        <log path="" />
+    </paths>
+    <logging remove-current-log="false">
+        <success filename="" />
+        <error filename="" />
+    </logging>
+    <handler>
+        <methodExecute name="execute" />
+        <namespace name="" />
+    </handler>
+</fastdb>

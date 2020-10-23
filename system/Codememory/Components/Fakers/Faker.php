@@ -142,7 +142,12 @@ class Faker
         return array_keys($this->config);
 
     }
-
+    
+    /**
+     * handlers
+     *
+     * @return void
+     */
     public function handlers()
     {
 
@@ -164,10 +169,17 @@ class Faker
 
     }
 
+    public function getName()
+    {
+
+        
+
+    }
+
     public function render()
     {
 
-
+        return $this->handlers();
 
     }
 

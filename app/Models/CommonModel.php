@@ -98,7 +98,8 @@ class CommonModel extends RegisterService
         $userdata = $this->conf->getUserData($this->conf->getFullServer('server-dir'), $this->conf->getUsername());
         $all = Store::completeSizeArray([
             $this->conf->getPathDb($this->conf->getFullServer()['server-dir'], $this->conf->getUsername()),
-            $this->conf->getPathServer($this->conf->getFullServer()['server-dir'], 'Users')
+            $this->conf->getPathServer($this->conf->getFullServer()['server-dir'], 'Users'),
+            $this->conf->getPathServer($this->conf->getFullServer()['server-dir'], 'Representation/'.$this->conf->getUsername())
         ]);
 
         return [

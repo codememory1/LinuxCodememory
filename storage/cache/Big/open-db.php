@@ -28,7 +28,7 @@
                         </thead>
                         <tbody>
                             <?php foreach($tables as $table): ?>
-                                <?php $info = $tablesModel->getInfo(Request::get('dbname'), $table)?>
+                                <?php $info = $tablesModel->getInfo(Request::get('dbname'), $table);?>
                                 <tr>
                                     <td>
                                         <?php echo $table; ?>

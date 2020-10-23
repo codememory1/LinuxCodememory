@@ -8,6 +8,9 @@ namespace System\Support;
  */
 class Random
 {
+
+    const REGEX_HASH = '/^[A-Z]{2}[0-9]{1}[a-z]{1}[0-9]{1}[A-Z]{1}[a-z]{3}[0-9]{2}[A-Z]{1}[a-z]{2}[A-Z]{1}[0-9]{3}[a-z]{2}[A-Z]{2}[a-z]{1}[0-9]{1}[A-Z]{1}[a-z]{1}[A-Z]{1}[a-z]{2}[0-9]{2}[A-Z]{3}[a-z]{2}$/';
+
     /**
      *
      * @var type 
@@ -87,6 +90,65 @@ class Random
             }
             return false;
         }
+    }
+    
+    /**
+     * randHash
+     *
+     * @return string
+     */
+    public function randHash():string
+    {
+
+        $randArr = [
+            up_line($this->randString(2)),
+            $this->randInt(1),
+            down_line($this->randString(1)),
+            $this->randInt(1),
+            up_line($this->randString(1)),
+            down_line($this->randString(3)),
+            $this->randInt(2),
+            up_line($this->randString(1)),
+            down_line($this->randString(2)),
+            up_line($this->randString(1)),
+            $this->randInt(3),
+            down_line($this->randString(2)),
+            up_line($this->randString(2)),
+            down_line($this->randString(1)),
+            $this->randInt(1),
+            up_line($this->randString(1)),
+            down_line($this->randString(1)),
+            up_line($this->randString(1)),
+            down_line($this->randString(2)),
+            $this->randInt(2),
+            up_line($this->randString(3)),
+            down_line($this->randString(2))
+        ];
+
+
+        $rand = null;
+
+        foreach($randArr as $randStr)
+        {
+            $rand .= $randStr;
+        }
+
+        return $rand;
+        
+    }
+    
+    /**
+     * isHash
+     *
+     * @param  mixed $hash
+     * @return bool
+     */
+    public function isHash(string $hash):bool
+    {
+
+        if(preg_match(self::REGEX_HASH, $hash)) return true;
+        else return false;
+
     }
     
 }

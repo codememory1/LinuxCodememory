@@ -1,4 +1,5 @@
 <?php $namespace0 = 'App\\Models\\Repositories\\ImportRepository'; $importRep = new $namespace0(); ?>
+<?php $namespace1 = 'App\\Models\\ConfigurationModel'; $config = new $namespace1(); ?>
 
 <?php $dbWithTables = $importRep->model->load('Database');?>
 <?php $common = $importRep->model->load('Common');?>
@@ -8,10 +9,19 @@
 
 <?php $memoryPros = ($common->getCountMemory()['kb'] / $common->getCountMemory()['all']['kb']) * 100;?>
 
+<?php if($config->getPercentageConfigSetting() < 100): ?>
+<div class="window-config">
+    <span>
+        <b>Конфигурация не настроена!</b> Настройти Конфигурацию в ином случае могут возникнуть проблемы.
+    </span>
+</div>
+<?php endif; ?>
+
 <div class="sitebar-left">
     <a href="<?php echo route('FastDB.all-db'); ?>">
         <div class="logo-sitebar-left">
             <h1>FastDB</h1>
+            <!-- <img src="/src/images/logo.png"> -->
         </div>
     </a>
     <div class="content-sitebar" style="overflow-x: hidden;position: relative;">
@@ -35,9 +45,11 @@
         <?php foreach($dbWithTables->listWithTables() as $dbname => $tables): ?>
             <div class="db-container-click <?php echo Request::get('dbname') === $dbname ? 'active' : ''; ?>">
                 <div class="default-show-db grid">
-                    <span class="db-name">
-                        <?php echo $dbname; ?>
-                    </span>
+                    <a href="<?php echo route('FastDB.open-db'); ?>?dbname=<?php echo $dbname; ?>" style="color: #fff;width: max-content;">
+                        <span class="db-name">
+                            <?php echo $dbname; ?>
+                        </span>
+                    </a>
                     <span class="ico-open-info-db grid"><i class="fal fa-plus-square"></i></span>
                 </div>
                 <div class="tables-db">
@@ -89,15 +101,17 @@
             <div>Сохранить <input type="radio" style="float:right;" id="as-save-deleted-data" name="as-save-deleted-data" class="on-off" value="server" <?php echo $dataUser['deleted-data']['asa'] === 'server' ? 'checked' : ''; ?>> <mark> на сервере </mark></div>
         </div>
         <div class="container-configuration-status">
-            <span>Конфигурация:</span>
+            <span>Конфигурация: <span style="float: right;"><?php echo $config->getPercentageConfigSetting(); ?>%</span></span>
             <div class="progress progress-memory">
-                <div class="progress-abs"></div>
+                <div class="progress-abs" style="width: <?php echo $config->getPercentageConfigSetting(); ?>%"></div>
             </div>
+            <?php if($config->getPercentageConfigSetting() < 100): ?>
             <center>
-                <a href="">
+                <a href="<?php echo route('FastDB.customize-config'); ?>">
                     <button class="btn btn-info">Настроить</button>
                 </a>
             </center>
+            <?php endif; ?>
         </div>
         <br>
         <center>

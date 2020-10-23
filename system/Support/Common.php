@@ -183,7 +183,30 @@ class Common
     public function getPrevUrl()
     {
 
-        return Server::get('HTTP_REFERER');
+        $uri = Server::get('HTTP_REFERER');
+        preg_match_all('/\?(?<name>[^\=]+)\=(?<value>[^\&]+)/', $uri, $match);
+
+        if(preg_match('/\?.*/', $uri)) {
+            $uri = preg_replace('/\?.*/', '', $uri);
+        }
+
+        return [
+            'uri'    => $uri,
+            'params' => array_combine($match['name'], $match['value'])
+        ];
+
+    }
+    
+    /**
+     * encodeUrl
+     *
+     * @param  mixed $url
+     * @return void
+     */
+    public function encodeUrl(string $url)
+    {
+
+        return base64_encode($url);
 
     }
     

@@ -6,7 +6,21 @@ use Url;
 
 class File
 {
+		
+	/**
+	 * ignoresPath
+	 *
+	 * @var mixed
+	 */
+	private $ignoresPath = [];
 	
+	/**
+	 * serahced
+	 *
+	 * @var array
+	 */
+	private $searched = [];
+
 	/**
 	* Полный путь до определеной папки или файла
 	*/	
@@ -134,7 +148,7 @@ class File
 	}
 	
 	/**
-	* Воврощает информацию о файле
+	* Возврощает информацию о файле
 	*/	
 	/**
 	 * fileInfo
@@ -146,7 +160,11 @@ class File
 	public function fileInfo($path, $options = null):array
 	{
 		
-		return pathinfo($this->path($path, $options)) ?? [];
+		$info = pathinfo($this->path($path, $options)) ?? [];
+
+		if(array_key_exists('extension', $info) === false) $info['extension'] = null;
+
+		return $info;
 		
 	}
 	
@@ -387,6 +405,101 @@ class File
 		$this->permission($path);
 
 		return $this;
+
+	}
+	
+	/**
+	 * ignore
+	 *
+	 * @param  mixed $paths
+	 * @return void
+	 */
+	public function ignore(...$paths)
+	{
+
+		$this->ignoresPath = array_map(function($dir) {
+			return trim($dir, '/').'/';
+		}, $paths);
+
+		return $this;
+
+	}
+		
+	/**
+	 * searchByRegex
+	 *
+	 * @param  mixed $value
+	 * @param  mixed $file
+	 * @return void
+	 */
+	private function searchByRegex($value, $file)
+	{
+		echo $file.'<br>';
+		if(preg_match('/'.$value.'/', $file)) return true;
+		else return false;
+
+	}
+
+	/**
+	 * search
+	 *
+	 * @param  mixed $file
+	 * @param  mixed $path
+	 * @return void
+	 */
+	public function search(array $file, ?string $path = null)
+	{
+		$searchedFiles = [];
+
+		$doRootPath = $path;
+
+		if($path === null) $path = Url::rootPath();
+		else $path = trim($path, '/').'/';
+
+		$scan = array_diff(scandir($path), ['.', '..']);
+
+		foreach($scan as $dir)
+		{
+			$nextPath = $path.$dir;
+			$doRootPath = \Store::replace([Url::rootPath() => ''], $doRootPath);
+
+			if(in_array($dir.'/', $this->ignoresPath) === false && in_array(trim($doRootPath, '/').'/', $this->ignoresPath) === false) {
+				if(is_dir($nextPath)) {
+					$this->search($file, $nextPath);
+				}
+				if(is_file($nextPath)) {
+					$nextPath = \Store::replace(['/' => '\\'], $nextPath);
+					$explode = explode('\\', $nextPath);
+					$explode = explode('/', $explode[array_key_last($explode)]);
+					$last = array_key_last($explode);
+
+					$info = $this->fileInfo($explode[$last]);
+
+					foreach($file as $key => $value)
+					{
+						if(array_key_exists($key, $info)) {
+							if($file[$key] === $info[$key]) {
+								$this->searched[] = $nextPath;
+							}
+						} 
+					}
+				}
+			}
+		}
+
+		return $this;
+
+	}
+	
+	/**
+	 * execSearch
+	 *
+	 * @return void
+	 */
+	public function execSearch()
+	{
+
+		return $this->searched;
 
 	}
 	

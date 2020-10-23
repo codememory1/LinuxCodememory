@@ -1,0 +1,59 @@
+[@theme(header)]
+[@theme(menu)]
+
+[@assets(css,libs/selector)]
+
+<div class="basic-content grid">
+    [@theme(sitebars)]
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>Хранилище Удаленных Данных</span>
+        </div>
+        <div class="content-abs">
+            [@theme(flash)]
+            
+            <div class="container-storage-db">
+                [@if count($all) < 1]
+                    <center>
+                        <h6>Пусто</h6>
+                    </center>
+                [@endIf]
+                [@foreach $all as $data]
+                    <div class="item-db" style="margin-bottom: 10px;">
+                        <h6>[[ $data['dbname'] ]] > [[ $data['table'] ]]</h6>
+                        <label for="" style="font-size: 13px;margin-left: 30px;margin-top: 10px;display: block;"><input select-all-checkbox="select-[[ $data['dbname'] ]]-[[ $data['table'] ]]" type="checkbox" class="minus" style="position: relative;top: 4px;"> Выбрать все</label>
+                        <form action="" method="GET">
+                            [@foreach $data['data'] as $record]
+                                <div class="information-database-click">
+                                    <div class="content-info-database" style="height: max-content;background: #737272fa;">
+                                        <div class="name-columns" style="background: #353131">
+                                            [@foreach $record as $column => $value]
+                                                <span>[[ $column ]]</span>
+                                            [@endForeach]
+                                            <span><input type="checkbox" class="marker" name="id-data[]" select-checkbox="select-[[ $data['dbname'] ]]-[[ $data['table'] ]]" value="1"></span>
+                                        </div>
+                                        <div class="value-columns">
+                                            [@foreach $record as $column => $value]
+                                                <span>[[ $value ]]</span>
+                                            [@endForeach]
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            [@endForeach]
+                            <div style="width: 100%;height: 35px;">
+                                <button class="btn btn-info">Восстановить</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="hr-light"></div>
+                [@endForeach]
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+
+[@theme(footer)]

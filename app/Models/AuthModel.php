@@ -73,9 +73,11 @@ class AuthModel extends RegisterService
             'max_password'     => 'Пароль должен состовлять максимум 68 символов.',
             'not_autification' => 'Данного пользователя не существует.',
             'successfull_auth' => 'Вы ушспешно аутифицировались',
-            'invalid_password_confirm' => 'Пароль не подтвержден. Выполнен выход из аккаунта.'
+            'invalid_password_confirm' => 'Пароль не подтвержден.'
         ];
 
+        if($this->request->get('json') == true) echo Response::arrayToJson(['response' => $errors[$key]]);
+        
         return $errors[$key];
 
     }
@@ -118,7 +120,7 @@ class AuthModel extends RegisterService
      * @param  mixed $common
      * @return void
      */
-    public function auth()
+    public function auth($reprModel)
     {
 
         $users = Response::jsonToArray(Store::getApi($this->conf->getPath('Users/list-all-users.fd')));
@@ -137,11 +139,11 @@ class AuthModel extends RegisterService
             ->supplement(function() {
                 return $this->existsServer($this->conf);
             })
-            ->authorize(function($data) {
+            ->authorize(function($data) use ($reprModel) {
                 Flash::name('flash-error')->add('success', $this->getError('successfull_auth'));
-
+                
                 Session::create('authorize', $data);
-
+                $reprModel->execRepresentation('Auth');
             })
             ->proccessErrors(function($errors) {
                 if(count($errors) > 0)
@@ -161,27 +163,71 @@ class AuthModel extends RegisterService
      *
      * @return void
      */
-    public function checkConfirm()
+    public function checkConfirm(string $username)
     {
 
         $server = $this->conf->getFullServer('server-watch');
-        $username = $this->conf->getUsername();
         $usersModel = $this->model->load('Users');
         $userid = $usersModel->searchIdUser($server, $username);
 
         $users = Response::jsonToArray(Store::getApi($this->conf->getPath('Users/list-all-users.fd')));
 
         if($users[$userid]['password'] === base64_encode($this->request->post('confirm-password'))) {
-            $this->session->life(3600)->create('confirm-auth', true);
+            $token = \Random::randString(36);
 
-            Redirector::his($this->request->get('redirect') ?? '/fastdb/all-db')->redirect();
+            $this->session->life(3600)->create('confirm-auth', $token);
+
+            Redirector::his($this->request->get('redirect').'?login='.$username.'&token-confirm-auth='.$token ?? '/fastdb/all-db')->redirect();
         } else  {
             Flash::name('flash-error')->add('error', $this->getError('invalid_password_confirm'));
             
-            $this->session->remove('authorize');
-            $this->session->remove('confirm-auth');
-            
-            Redirector::back()->redirect();
+            Redirector::his(route('FastDB.all-db'))->redirect();
+        }
+
+    }
+    
+    /**
+     * curlAuth
+     *
+     * @param  mixed $server
+     * @param  mixed $port
+     * @param  mixed $login
+     * @param  mixed $password
+     * @return void
+     */
+    public function curlAuth($server = null, $port = null, $login = null, $password = '')
+    {
+
+        $password = $password === 'null' ? '' : $password;
+
+        $showText = function($string) {
+            if($this->request->get('show-text') === 'ok-show') echo $string;
+        };
+
+        $users = Response::jsonToArray(Store::getApi($this->conf->getPath('Users/list-all-users.fd')));
+        $data = [];
+
+        foreach($users as $key => $user)
+        {
+            if(in_array($server.':'.$port, $user) && in_array($login, $user) && in_array($password, $user)) {
+                $data = [
+                    'server'   => $server.'-'.$port,
+                    'username' => $login
+                ];
+            }
+        }
+
+        if($data === []) {
+            $response = Response::arrayToJson(['status' => 'error', 'message' => 'Incorrect authentication data']);
+
+            if($this->request->get('connect-exit') === 'true') {
+                exit($response);
+            }
+            else {
+                $showText($response);
+            }
+        } else {
+            return true;
         }
 
     }

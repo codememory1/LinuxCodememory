@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use System\Codememory\AbstractComponent\Controller;
 use App\Models\Repositories\ConfigurationRepository;
+use App\Models\Repositories\DocumentationRepository;
 use Response;
 
 /**
@@ -12,7 +13,14 @@ use Response;
  */
 class DatabaseController extends Controller
 {
-    
+        
+    /**
+     * dbModel
+     *
+     * @var mixed
+     */
+    private $dbModel;
+
     /**
      * common
      *
@@ -30,6 +38,7 @@ class DatabaseController extends Controller
         parent::__construct();
 
         $this->common = $this->model->load('Common');
+        $this->dbModel = $this->model->load('Database');
     }
     
     /**
@@ -40,9 +49,7 @@ class DatabaseController extends Controller
     public function allDb()
     {
 
-        $modelDb = $this->model->load('Database');
-
-        $this->view->big('all-database', ['del_db' => $this->common->getAccess('delete-db'), 'all' => $modelDb->listWithTables()]);
+        $this->view->big('all-database', ['del_db' => $this->common->getAccess('delete-db'), 'all' => $this->dbModel->listWithTables()]);
         
     }
     
@@ -69,12 +76,14 @@ class DatabaseController extends Controller
     {
 
         $this->common->checkAccess('create-db');
+
         if($this->common->memoryCheck() === true) {   
-            $model = $this->model->load('Database');
+            
+            $reprModel = $this->model->load('Representation');
 
             if($this->common->invalidToken() === true)
             {
-                $model->createDatabase();
+                $this->dbModel->createDatabase($reprModel);
             }
         }
 
@@ -91,9 +100,8 @@ class DatabaseController extends Controller
         $this->common->checkAccess('delete-db');
 
         if($this->common->existsDb($this->request->get('dbname')) === true) {
-            $model = $this->model->load('Database');
 
-            $model->deleteDatabase($this->request->get('dbname'));
+            $this->dbModel->deleteDatabase($this->request->get('dbname'));
         }
         else {
             Response::setResponseCode(404)
@@ -123,8 +131,7 @@ class DatabaseController extends Controller
     {
 
         if($this->common->existsDb($this->request->get('dbname')) === true) {
-            $modelDb = $this->model->load('Database');
-            $tables = $modelDb->listWithTables()[$this->request->get('dbname')];
+            $tables = $this->dbModel->listWithTables()[$this->request->get('dbname')];
 
             $this->view->big('open-db', ['tables' => $tables]);
         }
@@ -134,5 +141,82 @@ class DatabaseController extends Controller
         }
 
     }
+    
+    /**
+     * docs
+     *
+     * @param  mixed $link
+     * @return void
+     */
+    public function docs($link)
+    {
+        
+        $repository = new DocumentationRepository();
+
+        $this->view->big('doc', ['menu' => $repository->getSitebarMenu()]);
+
+    }
+    
+    /**
+     * console
+     *
+     * @return void
+     */
+    public function console()
+    {
+
+        $this->view->big('console');
+
+    }
+    
+    /**
+     * representation
+     *
+     * @return void
+     */
+    public function representation()
+    {
+
+        $model = $this->model->load('Representation');
+        $conf = $this->model->load('Configuration');
+
+        $this->view->big('representation', ['getRepr' => $model->getAll()]);
+
+    }
+    
+    /**
+     * representationHandler
+     *
+     * @return void
+     */
+    public function representationHandler()
+    {
+
+        $model = $this->model->load('Representation');
+
+        if($this->common->memoryCheck()) {
+            $model->create();
+        }
+
+    }
+    
+    /**
+     * customizeConfig
+     *
+     * @return void
+     */
+    public function customizeConfig()
+    {
+
+        $conf = $this->model->load('Configuration');
+
+        if($conf->getPercentageConfigSetting() < 100) {
+            $conf->customizeConfiguration();
+        }
+
+        \Redirector::back()->redirect();
+
+    }
+    
     
 }

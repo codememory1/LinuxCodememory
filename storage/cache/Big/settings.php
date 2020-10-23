@@ -1,0 +1,83 @@
+<?php echo \View::theme('header'); ?>
+<?php echo \View::theme('menu'); ?>
+
+<?php echo \Assets::execute()->css('libs/selector'); ?>
+
+<div class="basic-content grid">
+    <?php echo \View::theme('sitebars'); ?>
+
+    <div class="content-center">
+        <div class="title-content">
+            <span>Мои Настройки</span>
+        </div>
+        <div class="content-abs">
+            <?php echo \View::theme('flash'); ?>
+            <form action="<?php echo route('FastDB.save-settings'); ?>" method="POST" class="column" style="width: 500px">
+                <div>
+                    <label for="">User Token</label>
+                    <span>
+                        <span style="position: relative;">
+                            <input type="text" value="<?php echo $userdata['hash']; ?>" placeholder="Токен" style="width: 90%;padding-right: 35px;pointer-events: none;" class="input-user-token">
+                            <span class="update-user-token">
+                                <i class="far fa-sync-alt"></i>
+                            </span>
+                        </span>
+                        <span class="eye-token">
+                            <i class="far fa-eye"></i>
+                            <i class="far fa-eye-slash"></i>
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <label for="">
+                        <input type="checkbox" name="save-deleted-data" class="on-off">
+                        <span class="span-privilege" style="bottom: 7px;">Получать уведомления</span>
+                    </label>
+                </div>
+                <div class="hr-light"></div>
+                <div>
+                    <label for="">
+                        <input type="checkbox" name="save-deleted-data" class="on-off" <?php echo $userdata['deleted-data']['save'] === true ? 'checked' : ''; ?>>
+                        <span class="span-privilege" style="bottom: 7px;">Сохранять удаленные данные</span>
+                    </label>
+                </div>
+                <ul>
+                    <div>
+                        <label for="">
+                            <input type="radio" name="as-save-deleted-data" class="marker" value="server" <?php echo $userdata['deleted-data']['asa'] === 'server' ? 'checked' : ''; ?>>
+                            <span class="span-privilege" style="bottom: 7px;">Сервер</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label for="">
+                            <input type="radio" name="as-save-deleted-data" class="marker" value="local" <?php echo $userdata['deleted-data']['asa'] === 'local' ? 'checked' : ''; ?>>
+                            <span class="span-privilege" style="bottom: 7px;">Локально</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label for="">
+                            Укажите Диск и с папкой для сохранения удаленных данных
+                            <br>
+                            <u style="font-size: 13px;">Пример D: или D:\deletedData</u>
+                        </label>
+                        <input type="text" name="path-save-local" placeholder="Локальный Диск" value="<?php echo $userdata['deleted-data']['path_local_save']; ?>">
+                    </div>
+                </ul>
+                <div class="hr-light"></div>
+                <div>
+                    <u class="btn-edit-user-password"><a>Изменить Пароль</a></u>
+                 </div>
+                 <div class="edit-password-user">
+                     <div>
+                         <label for="">Новый Пароль</label>
+                         <input type="password" name="password" placeholder="Введите Новый Пароль">
+                     </div>
+                 </div>
+                <button class="btn btn-success">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php echo \View::theme('footer'); ?>
+

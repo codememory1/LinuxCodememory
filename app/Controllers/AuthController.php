@@ -11,7 +11,14 @@ use Redirector;
  */
 class AuthController extends Controller
 {
-    
+        
+    /**
+     * authModel
+     *
+     * @var mixed
+     */
+    private $authModel;
+
     /**
      * common
      *
@@ -29,6 +36,7 @@ class AuthController extends Controller
         parent::__construct();
 
         $this->common = $this->model->load('Common');
+        $this->authModel = $this->model->load('Auth');
     }
     
     /**
@@ -51,11 +59,13 @@ class AuthController extends Controller
     public function authHandler()
     {
 
+        $repr = $this->model->load('Representation');
+
         if($this->common->invalidToken() === true)
         {
             $authModel = $this->model->load('Auth');
 
-            $authModel->auth();
+            $authModel->auth($repr);
         }
 
     }
@@ -81,7 +91,7 @@ class AuthController extends Controller
      * @return void
      */
     public function confirm()
-    {
+    {   
 
         $this->view->big('confirm-auth');
 
@@ -95,11 +105,31 @@ class AuthController extends Controller
     public function confirmHandler()
     {
 
-        $authModel = $this->model->load('Auth');
-
         if($this->common->invalidToken() === true) {
-            $authModel->checkConfirm();
+            $this->authModel->checkConfirm($this->request->get('login'));
         }
+
+    }
+    
+    /**
+     * connection
+     *
+     * @param  mixed $server
+     * @param  mixed $login
+     * @param  mixed $password
+     * @return void
+     */
+    public function connection($server, $login, $password)
+    {
+
+        $password = $password === 'null' ? '' : $password;
+
+        $servers = [
+            'server' => explode(':', $server)[0],
+            'port'   => explode(':', $server)[1]
+        ];
+
+        $this->authModel->curlAuth($servers['server'], $servers['port'], $login, $password);
 
     }
     

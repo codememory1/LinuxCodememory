@@ -1,0 +1,27 @@
+<?php
+
+namespace %s;
+
+use System\Database\FastDB\WorkInterface\ComponentsHandler\Migration\ {
+    InterfaceMigration,
+    MigrationInterfaces\UserDataInterface as UserData,
+    MigrationInterfaces\UserPrivilegesInterface as Privileges
+};
+
+/**
+ * Class %s
+ * @package %s
+ */
+class %s extends InterfaceMigration
+{
+
+    public function %s():string
+    {
+
+        // TODO:
+
+        return 'successfull';
+
+    }
+
+}

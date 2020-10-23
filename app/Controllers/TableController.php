@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use System\Codememory\AbstractComponent\Controller;
 use App\Models\Repositories\ConfigurationRepository;
+use GuzzleHttp\Exception\ClientException;
 use Response;
 
 /**
@@ -12,7 +13,7 @@ use Response;
  */
 class TableController extends Controller
 {
-    
+
     /**
      * common
      *
@@ -30,6 +31,33 @@ class TableController extends Controller
         parent::__construct();
 
         $this->common = $this->model->load('Common');
+
+    }
+    
+    /**
+     * tableModel
+     *
+     * @return void
+     */
+    private function tableModel()
+    {
+
+        return $this->model->load('Tables');
+
+    }
+
+    private function basicData(?string $method = 'get')
+    {
+
+        $dbname = $this->request->$method('dbname');
+        $table = $this->request->$method('table');
+
+        return [
+            'model'  => $this->tableModel(),
+            'dbname' => $dbname,
+            'table'  => $table
+        ];
+
     }
     
     /**
@@ -67,8 +95,9 @@ class TableController extends Controller
         }
 
         if($this->common->memoryCheck() === true) {  
-            $model = $this->model->load('Tables');
-            $model->createTable();
+            Response::setResponseCode(200);
+
+            $this->tableModel()->createTable();
         }
 
     }
@@ -82,7 +111,6 @@ class TableController extends Controller
     {
 
         $this->common->checkAccess('delete-table');
-        $model = $this->model->load('Tables');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
 
@@ -90,7 +118,7 @@ class TableController extends Controller
             Response::setResponseCode(404)
                     ->getContentResponseCode('Not Found');
         } else {
-            $model->delete($dbname, $table);
+            $this->tableModel()->delete($dbname, $table);
         }
 
     }
@@ -103,7 +131,6 @@ class TableController extends Controller
     public function settings()
     {
 
-        $model = $this->model->load('Tables');
         $modelDb = $this->model->load('Database');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
@@ -125,7 +152,6 @@ class TableController extends Controller
     public function settingsHandler()
     {
 
-        $model = $this->model->load('Tables');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
 
@@ -133,7 +159,7 @@ class TableController extends Controller
             Response::setResponseCode(404)
                     ->getContentResponseCode('Not Found');
         } else {
-            $model->settingsTable($dbname, $table, $this->request->post('dbname'), $this->request->post('table-name'));
+            $this->tableModel()->settingsTable($dbname, $table, $this->request->post('dbname'), $this->request->post('table-name'));
         }
         
 
@@ -150,7 +176,6 @@ class TableController extends Controller
     {
 
         $this->common->checkAccess('watch-table');
-        $model = $this->model->load('Tables');
 
         if($this->common->existsTable($dbname, $table) === false) {
             Response::setResponseCode(404)
@@ -161,8 +186,8 @@ class TableController extends Controller
             [
                 'dbname'    => $dbname, 
                 'table'     => $table, 
-                'structure' => $model->getStructure($dbname, $table),
-                'datas'     => $model->getData($dbname, $table)
+                'structure' => $this->tableModel()->getStructure($dbname, $table),
+                'datas'     => $this->tableModel()->getData($dbname, $table)
             ]);
 
     }
@@ -176,7 +201,7 @@ class TableController extends Controller
     {
 
         $this->common->checkAccess('cleans-table');
-        $model = $this->model->load('Tables');
+
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
         
@@ -185,7 +210,7 @@ class TableController extends Controller
                     ->getContentResponseCode('Not Found');
         }
 
-        $model->cleansTable($dbname, $table);
+        $this->tableModel()->cleansTable($dbname, $table);
 
     }
 
@@ -199,7 +224,6 @@ class TableController extends Controller
 
         $this->common->checkAccess('cleans-table');
 
-        $model = $this->model->load('Tables');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
 
@@ -208,7 +232,7 @@ class TableController extends Controller
                     ->getContentResponseCode('Not Found');
         } 
 
-        $model->deleteTableData($dbname, $table);
+        $this->tableModel()->deleteTableData($dbname, $table);
 
     }
     
@@ -224,7 +248,6 @@ class TableController extends Controller
 
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
-        $model = $this->model->load('Tables');
         
         if($this->common->existsTable($dbname, $table) === false) {
             Response::setResponseCode(404)
@@ -232,7 +255,7 @@ class TableController extends Controller
         }
 
         $this->view->big('embed-data-table', [
-            'structure' => $model->getStructure($dbname, $table),
+            'structure' => $this->tableModel()->getStructure($dbname, $table),
         ]);
 
     }
@@ -247,7 +270,6 @@ class TableController extends Controller
 
         $this->common->checkAccess('embed-data-table');
 
-        $model = $this->model->load('Tables');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
         
@@ -256,30 +278,105 @@ class TableController extends Controller
                     ->getContentResponseCode('Not Found');
         }
 
-        if($this->common->memoryCheck() === true) {  
-            $model->embedData($dbname, $table);
+        if($this->common->memoryCheck() === true && $this->common->invalidToken() === true) {  
+            $this->tableModel()->embedData($dbname, $table);
         }
 
     }
-    
+        
+    /**
+     * editData
+     *
+     * @return void
+     */
     public function editData()
     {
+        
+        $this->common->checkAccess('edit-tabel-data');
 
-        // $this->common->checkAccess('edit-tabel-data');
-
-        $model = $this->model->load('Tables');
         $dbname = $this->request->get('dbname');
         $table = $this->request->get('table');
         $id = $this->request->get('id');
 
-        if($this->common->existsTable($dbname, $table) === false || !$model->getData($dbname, $table)['data'][$id]) {
+        if($this->common->existsTable($dbname, $table) === false || !$this->tableModel()->getData($dbname, $table)['data'][$id]) {
             Response::setResponseCode(404)
                     ->getContentResponseCode('Not Found');
         }
 
         $this->view->big('edit-table-data', [
-            'structure' => $model->getData($dbname, $table)['data'][$id],
+            'structure' => $this->tableModel()->getData($dbname, $table)['data'][$id],
         ]);
+
+    }
+    
+    /**
+     * editDataHandler
+     *
+     * @return void
+     */
+    public function editDataHandler()
+    {
+
+        $this->common->checkAccess('edit-tabel-data');
+
+        $dbname = $this->request->get('dbname');
+        $table = $this->request->get('table');
+        $id = $this->request->get('id');
+
+        if($this->common->existsTable($dbname, $table) === false || !$this->tableModel()->getData($dbname, $table)['data'][$id]) {
+            Response::setResponseCode(404)
+                    ->getContentResponseCode('Not Found');
+        }
+
+        if($this->common->memoryCheck() === true && $this->common->invalidToken() === true) {  
+            $this->tableModel()->editData($dbname, $table, $id);
+        }
+
+    }
+    
+    /**
+     * editStructure
+     *
+     * @return void
+     */
+    public function editStructure()
+    {
+
+        $this->common->checkAccess('create-table');
+
+        $dbname = $this->request->get('dbname');
+        $table = $this->request->get('table');
+
+        if($this->common->existsTable($dbname, $table) === false) {
+            Response::setResponseCode(404)
+                    ->getContentResponseCode('Not Found');
+        }
+
+        $this->view->big('edit-structure', [
+            'structure' => $this->tableModel()->getStructure($dbname, $table),
+        ]);
+
+    }
+    
+    /**
+     * editStructureHandler
+     *
+     * @return void
+     */
+    public function editStructureHandler()
+    {
+
+        $this->common->checkAccess('create-table');
+
+        $dbname = $this->request->get('dbname');
+        $table = $this->request->get('table');
+
+        if($this->common->existsTable($dbname, $table) === false) {
+            Response::setResponseCode(404)
+                    ->getContentResponseCode('Not Found');
+        }
+
+        $this->tableModel()->editStructure($dbname, $table);
 
     }
 

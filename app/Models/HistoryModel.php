@@ -103,6 +103,8 @@ class HistoryModel extends RegisterService
             'invalid_id_history'     => 'История с индитификатором %s не найдена.'
         ];
 
+        if($this->request->get('json')) echo Response::arrayToJson(['response' => $errors[$key]]);
+
         return $errors[$error];
 
     }

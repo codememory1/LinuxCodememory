@@ -2,8 +2,8 @@
 
 <div class="container-auth">
 	<div class="content-auth">
-		<div class="logo-login grid">
-			<h1>FastDB</h1>
+		<div class="logo-login grid" style="justify-content: center;">
+			<img src="/src/images/logo.svg" alt="FastDB" style="width: 200px;">
 		</div>
 		[@theme(flash)]
 		<form action="[[ route('FastDB.auth-handler') ]]" method="post" class="grid" style="min-width: 400px;max-width:100%;width:auto">
@@ -13,9 +13,8 @@
 			<input type="password" name="password" placeholder="Пароль">
 			<button class="btn btn-success" btn-loader="default">Войти</button>
 		</form>
-		<div class="footer-login-form grid">
-			<a href="">Документация</a>
-			<a href="">Офф. Сайт</a>
+		<div class="footer-login-form" style="text-align: center;">
+			<a href="/documentation/docs">Документация</a>
 		</div>
 	</div>
 </div>

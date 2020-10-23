@@ -38,6 +38,12 @@ input[type="range"] {
 	height: 6px;
 }
 
+.hidden {
+	opacity: 0;
+	visibility: hidden;
+	backface-visibility: hidden;
+}
+
 .forbidden {
 	position: absolute;
 	background-color: rgba(0,0,0,0.68);
@@ -1518,3 +1524,492 @@ table {
 		}
 	}
 }
+
+// DOCUMENTATION
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+body.doc {
+	&.doc {
+		background: #eeeeee;
+	}
+
+	.doc-container {
+		background: #fbfbfb;
+		height: max-content;
+		max-width: 1600px;
+		margin: 0 auto;
+		box-shadow: 0px 0px 3px 1px #cfcece, 0px 0px 5px 0px #cfcece;
+	}
+
+	.doc-header {
+		grid-template-columns: 1fr 1fr;
+		// border-bottom: 1px solid $borderDark;
+
+		.doc-icon-github {
+			color: #fff;
+			align-items: center;
+			display: flex;
+			font-size: 15px;
+			font-weight: 100;
+			margin-right: 20px;
+			height: max-content;
+			padding: 6px 30px;
+			background: #0066ff;
+			border-radius: 3px;
+			transition: background .3s;
+
+			&:hover {
+				background: darken(#0066ff, 10%);
+			}
+
+			i {
+				padding-right: 7px;
+				font-weight: 100;
+			}
+		}
+
+		.doc-git-right {
+			display: inherit;
+			justify-content: end;
+			align-items: center;
+		}
+
+		.doc-logo {
+			display: grid;
+			grid-template-columns: 150px 1fr;
+			color: $basicColor;
+			padding: 20px 20px;
+			
+			h1 {
+				font-family: 'Archivo Black', sans-serif;
+				font-size: 35px!important;
+			}
+		}
+	}
+
+	.doc-menu-header {
+		// background: darken($basicColor, 10%);
+		background: $basicColor;
+		margin-top: 10px;
+
+		ul {
+			display: flex;
+			padding-left: 30px;
+
+			li {
+				list-style-type: none;
+				padding: 15px 10px;
+				font-weight: 100;
+				color: #fff;
+				transition: color .3s;
+
+				&:hover {
+					color: #d3d3d3;
+					// color: $basicColor;
+				}
+			}
+		}
+	}
+
+	.doc-content {
+		width: 100%;
+		height: max-content;
+		display: grid;
+		grid-template-columns: 300px 1fr;
+		grid-gap: 8px;
+		padding: 6px;
+
+		.doc-sitebar {
+			ul {
+				padding-left: 15px;
+				padding-top: 6px;
+
+				li {
+					color: #3baeff;
+					cursor: pointer;
+					padding: 3px 0;
+					list-style-type: none;
+					transition: color .3s;
+					font-weight: 100;
+
+					span {
+						font-weight: 100;
+
+						&:hover {
+							color: darken(#3baeff, 10%);
+							text-decoration: underline;
+						}
+					}
+				}
+			}
+
+			div.title-link {
+				background-color: lighten($dark, 70%);
+				color: #666;
+				font-weight: 100;
+				padding: 7px 5px 7px 10px;
+				margin-top: -1px;
+				border-radius: 0px;
+				cursor: pointer;
+				transition: background .4s;
+
+				&:hover {
+					background-color: $basicColor;
+					color: #fff;
+				}
+			}
+		}
+
+		.link {
+			display: flex;
+
+			&:before {
+				content: '\f111';
+				font-family: "Font Awesome 5 Pro";
+				font-size: 5px;
+				margin-right: 5px;
+				color: #555;
+				font-weight: 600;
+			}
+		}
+
+		.link-click {
+			height: 20px;
+			overflow: hidden;
+
+			&:before {
+				content: '\f105';
+				font-family: "Font Awesome 5 Pro";
+				margin-right: 5px;
+				color: #555;
+				font-weight: 600;
+			}
+
+			&.active {
+				height: max-content;
+				
+				&:before {
+					content: '\f107';
+					font-family: "Font Awesome 5 Pro";
+					margin-right: 5px;
+					color: #555;
+					font-weight: 600;
+				}
+			}
+		}
+	
+		> div {
+			background: #eeeeee;
+			border-radius: 4px;
+			border: 1px solid #cfcfcf;
+		}
+
+		.doc-common-content {
+			color: #555;
+			padding: 15px;
+
+			.doc-title-page {
+				margin-bottom: 25px;
+			}
+			
+			@for $i from 1 through 6 {
+				h#{$i} {
+					font-size: 23px;
+					font-weight: 100;
+				}
+			}
+
+			span,p {
+				font-weight: 100;
+				line-height: 25px;
+			}
+
+			.doc-similar-request {
+				display: grid;
+				font-weight: 100;
+				padding: 10px;
+				padding-bottom: 0;
+				padding-left: 25px;
+				position: relative;
+				top: 9px;		
+				margin-bottom: 15px;
+
+				a {
+					line-height: 23px!important;
+					display: flex;
+					width: max-content;
+
+					&:before {
+						content: '\f111';
+						font-family: "Font Awesome 5 Pro";
+						font-size: 5px;
+						margin-right: 5px;
+						color: #555;
+						font-weight: 600;
+					}
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}	
+			}
+		}
+	}
+
+	.perk-content-link {
+		display: none;
+	}
+
+	.doc-note {
+		margin-top: 15px;
+		padding: 6px;
+		background: #ffffff;
+		border-radius: 3px;
+		border: 1px solid #a09f9f;
+		margin-bottom: 10px;
+	
+		span.title-doc-note {
+			text-transform: uppercase;
+			font-weight: 600;
+			color: #000;
+		}
+	}
+
+	.doc-desin-block {
+		background: #00b8ff4d;
+		color: #fff;
+		font-weight: 600;
+		width: 100%;
+    	display: inline-block;
+		margin-bottom: 10px;
+
+		span {
+			text-shadow: 1px 0px 2px #000;
+		}
+
+		.title-desing-block {
+			display: block;
+			float: left;
+			width: 100%;
+			background: #0095ff;
+			padding: 5px;
+			font-weight: 900!important;
+			
+			&:before {
+				content: '\f06a';
+				font-family: 'Font Awesome 5 Pro';
+				margin-right: 10px;
+			}
+		}
+
+		.doc-content-desin-block {
+			float: left;
+			display: flex;
+			width: 100%;
+			height: auto;
+			background: #00b8ff4d;
+			padding: 6px;
+			display: grid;
+			grid-template-columns: 1fr;
+			width: 100%;
+			height: auto;
+			grid-row-gap: 15px;
+
+			> div {
+				width: 100%;
+
+				&:not(.columns) {
+					span:nth-child(2) {
+						font-weight: 100!important;
+						margin-left: 100px;
+					}
+				}
+
+				&.auto-width {
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+				}
+			}
+
+			> div.columns {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+				&-bg {
+					background: orange;
+					padding: 0 4px;
+
+					span {
+						color: #fff;
+					}
+				}
+			}
+	
+			span {
+				text-shadow: none;
+				color: #333;
+				font-weight: 600;
+			}
+		}
+	}
+
+	mark {
+		font-size: 13px;
+    	background: orangered;
+	}
+
+	.params-yes {
+		&:before {
+			content: '\f00c';
+			font-family: 'Font Awesome 5 Pro';
+			color: green;
+			margin-left: 15px;
+		}
+	}
+	.params-no {
+		&:before {
+			content: '\f00d';
+			font-family: 'Font Awesome 5 Pro';
+			color: red;
+			margin-left: 15px;
+		}
+	}
+
+	.separator-where {
+		> div {
+			height: 42px;
+		}
+
+		.doc-note {
+			width: 30px;
+			display: inline-block;
+			text-align: center;
+		}
+	}
+}
+
+.input-user-token {
+	text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+	color: transparent;
+	
+	&.active {
+		text-shadow: none;
+		color: #000;
+	}
+
+	&::selection {
+		color: $basicColor;
+	}
+}
+
+.eye-token {
+	padding: 0 10px;
+	cursor: pointer;
+
+	i {
+		transition: color .3s ease;
+		font-size: 17px;
+
+		&:hover {
+			color: $basicColor;
+		}
+	}
+
+	&.active {
+		i:nth-child(1) {
+			display: none;
+		}
+		i:nth-child(2) {
+			display: inherit;
+		}
+	}
+
+	i:nth-child(2) {
+		display: none;
+	}
+}
+
+.edit-password-user {
+	overflow: hidden;
+    transition: height .3s linear;
+	height: 0px;
+	
+	&.active {
+		height: 60px;
+	}
+}
+
+.btn-edit-user-password {
+	width: max-content;
+}
+
+.update-user-token {
+	position: absolute;
+    right: 15px;
+    color: #000;
+	top: 0;
+	cursor: pointer;
+	i{
+		transition: color .3s ease;
+		font-weight: 600;
+
+		&:hover {
+			color: $basicColor;
+		}
+	}
+}
+
+.window-config {
+	position: fixed;
+    bottom: 0px;
+    z-index: 9;
+    background: #c16f6f;
+    width: 100%;
+    height: 55px;
+    left: 0px;
+    color: #eae5e5;
+    text-shadow: 0px 0px 2px #000;
+    text-align: center;
+    display: grid;
+    align-items: center;
+    border-top: 5px solid #c55353;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.content-modal-response {
+	.circle {
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		background-color: #a2a1a1;
+		display: inline-block;
+		position: relative;
+		top: 3px;
+		margin-left: 10px;
+	}
+
+	[status-code="200"] {
+		background-color: #1cee1c;
+	}
+	[status-code="403"] {
+		background-color: orange;
+	}
+	[status-code="404"] {
+		background-color: red;
+	}
+
+	.hr-light {
+		margin-top: 0px;
+	}
+
+	.statusResponseSpan {
+		padding: 7px;
+		display: block;
+		margin-left: 20px;
+	}
+
+	.no_status_code {
+		color: #dada11;
+	}
+}
+

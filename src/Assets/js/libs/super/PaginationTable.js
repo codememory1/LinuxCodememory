@@ -22,6 +22,8 @@ class PaginationTable {
         let btn = this.buttonClick;
         let allLoad = this.allLoad;
         let dataLoad = [];
+        let loadedData = 0;
+        
         btn.onclick = () => {
             let containerLoader = document.createElement('span');
             
@@ -37,13 +39,14 @@ class PaginationTable {
                 for(let i = allLoad; i < allLoad + this.countLoad; i++) {
                     if(this.dataLoad[i]) {
                         dataLoad.push(this.dataLoad[i]);
+                        loadedData++; 
                     }
 
                     if(i + 1 == allLoad + this.countLoad) {
                         document.querySelector('[id-loader="' + idLoader + '"]').remove();
                     }
                 }
-                callback(dataLoad);
+                callback(dataLoad, this.dataLoad.length, loadedData + this.loaded);
                 dataLoad = [];
             }, 100);
 
@@ -67,6 +70,12 @@ class PaginationTable {
 
         for(let i = 0; i <= lengthData; i++) {
             data.push(this.dataLoad[i]);
+        }
+
+        for(let i = 0; i < Object.keys(data).length; i++) {
+            if(this.dataLoad[i] === undefined) {
+                delete data[i];
+            }
         }
 
         this.allLoad = +Number(this.loaded);

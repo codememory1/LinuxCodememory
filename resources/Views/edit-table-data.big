@@ -12,7 +12,7 @@
         </div>
         <div class="content-abs">
             [@theme(flash)]
-            <form action="[[ route('FastDB.embed-data-handler') ]]?dbname=[[ Request::get('dbname') ]]&table=[[ Request::get('table') ]]" method="POST" class="column" style="width: 450px;">
+            <form action="[[ route('FastDB.edit-data-table-handler') ]]?dbname=[[ Request::get('dbname') ]]&table=[[ Request::get('table') ]]&id=[[ Request::get('id') ]]" method="POST" class="column" style="width: 450px;">
                 <input type="hidden" name="cdm_token"value="[[ protection_token() ]]">
                 <div>
                     <label for="">Время жизни в Секундах «необязательно»</label>
@@ -30,7 +30,7 @@
                 [@endForeach]
 
                 <div>
-                    <button class="btn btn-success" style="margin: 0px;" btn-loader="default">Добавить</button>
+                    <button class="btn btn-success" style="margin: 0px;" btn-loader="default">Сохранить</button>
                 </div>
             </form>
         </div>

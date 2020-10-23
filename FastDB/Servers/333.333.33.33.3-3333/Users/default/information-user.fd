@@ -3,7 +3,7 @@
     "port": 3333,
     "username": "default",
     "password": "",
-    "hash": "DPUG7YgM49c0ZBImEj8wO1laAehFvNxpW5Kb",
+    "hash": "Nrg5iXfuDlwan82voStKdLGFY0hsyWQA6CVM",
     "date-created": "2020-09-19 00:27",
     "freeze-account": false,
     "memory": {
@@ -27,11 +27,12 @@
         "delete-user": true,
         "watch-table": true,
         "cleans-table": true,
-        "embed-data-table": true
+        "embed-data-table": true,
+        "edit-tabel-data": true
     },
     "deleted-data": {
-        "save": true,
-        "asa": "server",
-        "path_local_save": null
+        "save": false,
+        "asa": "local",
+        "path_local_save": "D:\/fastdb\/"
     }
 }

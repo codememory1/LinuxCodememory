@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fastdb>
+    <connection>
+        <server>333.333.33.33.3</server>
+        <port>3333</port>
+        <username>default</username>
+        <password>null</password>
+    </connection>
+    <paths>
+        <migration path="/Migrations/FastDB/" />
+        <log path="/Migrations/FastDB/logs/" />
+    </paths>
+    <logging remove-current-log="false">
+        <success filename="success.log" />
+        <error filename="error.log" />
+    </logging>
+    <handler>
+        <methodExecute name="execute" />
+        <namespace name="Migrations\FastDB" />
+    </handler>
+</fastdb>

@@ -12,7 +12,7 @@
             <?php echo \View::theme('flash'); ?>
             <div style="height: 30px;margin-left: 5px;">
                 <a href="<?php echo route('FastDB.embed-data'); ?>?dbname=<?php echo $dbname; ?>&table=<?php echo $table; ?>" class="btn btn-success">Вставить Данные</a>
-                <a href="" class="btn btn-info">Редактировать структуру таблицы</a>
+                <a href="<?php echo route('FastDB.edit-structure'); ?>?dbname=<?php echo $dbname; ?>&table=<?php echo $table; ?>" class="btn btn-info">Редактировать структуру таблицы</a>
             </div>
             <div class="table_statistics grid">
                 <div class="content-statictic grid">
@@ -74,16 +74,16 @@
                                             <?php foreach($data as $nameColumn => $dataValue): ?>
                                                 <?php if($column['name-column'] === 'life'): ?>
                                                     <?php if($data[$column['name-column']] < 0): ?>
-                                                        <td>
+                                                        <td edit-field="true" id="td-data-table" data-id="<?php echo $key; ?>" name-column="<?php echo $column['name-column']; ?>" value-column="<?php echo $data[$column['name-column']]; ?>">
                                                             <?php echo $data[$column['name-column']]; ?>
                                                         </td>
                                                     <?php else: ?>
-                                                        <td>
+                                                        <td edit-field="true" id="td-data-table" data-id="<?php echo $key; ?>" name-column="<?php echo $column['name-column']; ?>" value-column="<?php echo $data[$column['name-column']]; ?>">
                                                             <?php echo $data[$column['name-column']] - Date::unix(); ?>
                                                         </td>
                                                     <?php endif; ?>
                                                     <?php else: ?>
-                                                    <td edit-field="true"><?php echo $data[$column['name-column']]; ?></td>
+                                                    <td edit-field="true" id="td-data-table" data-id="<?php echo $key; ?>" name-column="<?php echo $column['name-column']; ?>" value-column="<?php echo $data[$column['name-column']]; ?>"><?php echo $data[$column['name-column']]; ?></td>
                                                 <?php endif; ?>
                                                 
                                                 <?php break;?>
@@ -129,6 +129,8 @@
             value: 'Статистика таблицы <span class="right" style="margin-top: 2px;"><input type="checkbox" class="on-off" id="check-staticic-table"></span>'
         }
     ]);
+    let dbname = '<?php echo $dbname; ?>';
+    let table = '<?php echo $table; ?>';
 </script>
 
 <?php echo \View::theme('footer'); ?>

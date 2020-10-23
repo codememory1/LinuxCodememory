@@ -13,6 +13,7 @@ use Date;
 use Response;
 use Redirector;
 use Common;
+use Random;
 
 /**
  * DatabaseModel
@@ -137,8 +138,12 @@ class TablesModel extends RegisterService
             'move_table_redirect'         => 'Редирект в таблицу %s',
             'settings_table_success_save' => 'Настройки таблицы успешно сохранены.',
             'successfull_cleans_table'    => 'Таблица очищена.',
-            'column_name_register'        => 'Имя %s является зарегестированным словом.'
+            'column_name_register'        => 'Имя %s является зарегестированным словом.',
+            'success_edit_data_table'     => 'Запись обновлена.',
+            'success_edit_structure'      => 'Структура Таблицы успешно обновлена.'
         ];
+
+        if($this->request->get('json')) echo Response::arrayToJson(['response' => $errors[$key]]);
 
         return $errors[$error];
 
@@ -170,6 +175,37 @@ class TablesModel extends RegisterService
         return Response::arrayToJson($data);
 
     }
+    
+        /**
+     * deleteRepeateColumns
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    private function deleteRepeateColumns(array $request)
+    {
+
+        $newRequest = [];
+        $fullRequest = [];
+
+        foreach($request['name-column'] ?? [] as $k => $name)
+        {
+            $newRequest[$name] = $k;
+        }
+
+        foreach($newRequest as $k)
+        {
+            $fullRequest['name-column'][] = $request['name-column'][$k];
+            $fullRequest['type'][] = $request['type'][$k];
+            $fullRequest['length'][] = $request['length'][$k];
+            $fullRequest['default'][] = $request['default'][$k];
+            $fullRequest['other-default'][] = $request['other-default'][$k];
+            $fullRequest['charset'][] = $request['charset'][$k];
+        }
+
+        return $fullRequest;
+
+    }
 
     /**
      * deleteEmptyColumn
@@ -180,16 +216,26 @@ class TablesModel extends RegisterService
     {
 
         $request = $this->request->post();
+        $newRequest = [
+            'name-column'   => [],
+            'type'          => [],
+            'length'        => [],
+            'default'       => [],
+            'other-default' => [],
+            'charset'       => []
+        ];
 
-        foreach($request['name-column'] as $key => $name)
-        {
-            if(empty($name)) {
-                unset($request['name-column'][$key]);
-                unset($request['type'][$key]);
-                unset($request['length'][$key]);
-                unset($request['default'][$key]);
-                unset($request['other-default'][$key]);
-                unset($request['charset'][$key]);
+        if(is_array($request['name-column']) && (count($request['name-column']) > 0)) {
+            foreach($request['name-column'] as $key => $name)
+            {
+                if(empty($name)) {
+                    unset($request['name-column'][$key]);
+                    unset($request['type'][$key]);
+                    unset($request['length'][$key]);
+                    unset($request['default'][$key]);
+                    unset($request['other-default'][$key]);
+                    unset($request['charset'][$key]);
+                }
             }
         }
 
@@ -206,8 +252,9 @@ class TablesModel extends RegisterService
     {
 
         $request = $this->deleteEmptyColumns();
+        $request = $this->deleteRepeateColumns($request);
 
-        if(count($request['name-column']) < 1) {
+        if(count($request['name-column'] ?? []) < 1) {
             echo $this->getErrorToJson('error', 'column_is_empty');
 
             return false;
@@ -222,19 +269,22 @@ class TablesModel extends RegisterService
      *
      * @return void
      */
-    private function validationCreateTable()
+    private function validationCreateTable(bool $checkRegistration = true)
     {
 
         $request = $this->deleteEmptyColumns();
+        $request = $this->deleteRepeateColumns($request);
+
         $types = [
             'int', 'string', 'float', 'date'
         ];
         $defaults = [
             'null', 'date', 'datetime', 'timestamp', 'autoid'
         ];
-        $registaration_name = [
-            'life'
-        ];
+
+        $registaration_name = ($checkRegistration === true) ? [
+            'life', 'life'
+        ] : [];
 
         /**
          * Функция валидации именни колонки
@@ -250,7 +300,7 @@ class TablesModel extends RegisterService
                 ->with('name', function($validator) use ($regexNameColumn, $registaration_name, $name) {
                     $validator->validation('regular:'.$regexNameColumn)
                         ->setMessage($this->getErrorToJson('error', 'invalid_name_column'))
-                    ->validation('not_only:(life,life)')
+                    ->validation('not_only:('.implode(',', $registaration_name).')')
                     ->setMessage(sprintf($this->getErrorToJson('error', 'column_name_register'), $name));
                 })
                 ->make();
@@ -429,24 +479,29 @@ class TablesModel extends RegisterService
             ]
         ];
         $request = $this->deleteEmptyColumns();
+        $request = $this->deleteRepeateColumns($request);
 
-        $request['name-column'][] = 'life';
-        $request['type'][] = 'int';
-        $request['length'][] = null;
-        $rerequestq['default'][] = null;
-        $request['other-default'][] = null;
-        $request['charset'][] = 'UTF-8';
+        if($this->request->post('add-column-life') === 'on') {
+            $request['name-column'][] = 'life';
+            $request['type'][] = 'int';
+            $request['length'][] = null;
+            $request['default'][] = null;
+            $request['other-default'][] = null;
+            $request['charset'][] = 'UTF-8';
+        }
 
-        foreach($request['name-column'] as $k => $name)
-        {
-            $data['structure']['column-'.$k] = [
-                'name-column'   => $name,
-                'type'          => $request['type'][$k],
-                'length'        => empty($request['length'][$k]) ? null : (int) $request['length'][$k],
-                'default'       => $request['default'][$k],
-                'other-default' => $request['other-default'][$k],
-                'charset'       => $request['charset'][$k]
-            ];
+        if(is_array($request['name-column']) && (count($request['name-column']) > 0)) {
+            foreach($request['name-column'] as $k => $name)
+            {
+                $data['structure']['column-'.$k] = [
+                    'name-column'   => $name,
+                    'type'          => $request['type'][$k],
+                    'length'        => empty($request['length'][$k]) ? null : (int) $request['length'][$k],
+                    'default'       => $request['default'][$k],
+                    'other-default' => $request['other-default'][$k],
+                    'charset'       => $request['charset'][$k]
+                ];
+            }
         }
 
         if($this->validateNameTable() === true) {
@@ -670,6 +725,15 @@ class TablesModel extends RegisterService
         Store::editJsonFile($this->getPathOfTable($dbname, $table, 'data.fd'))
             ->editJsonData(function($data) use ($request, $structure) {
                 $newData = [];
+                foreach($data['data'] as $datas)
+                {
+                    foreach($datas as $key => $value)
+                    {
+                        if(!array_key_exists($key, $request)) {
+                            $request[$key] = $key === 'life' ? -1 : '';
+                        }
+                    }
+                }
                 foreach($request as $k => $v)
                 {
                     $methodDefault = one_up_line($structure[$k]['default']);
@@ -681,12 +745,12 @@ class TablesModel extends RegisterService
 
                     if(empty($v)) {
                         if(empty($structure[$k]['other-default'])) {
-                            $newData[count($data['data']) + 1][$k] = $this->defaults->$methodDefault();
+                            $newData[array_key_last($data['data']) + 1][$k] = $this->defaults->$methodDefault();
                         } else {
-                            $newData[count($data['data']) + 1][$k] = $structure[$k]['other-default'];
+                            $newData[array_key_last($data['data']) + 1][$k] = $structure[$k]['other-default'];
                         }
                     } else {
-                        $newData[count($data['data']) + 1][$k] = $this->types->$methodType(mb_convert_encoding($v, $structure[$k]['charset'], mb_detect_encoding($v)));
+                        $newData[array_key_last($data['data']) + 1][$k] = $this->types->$methodType(mb_convert_encoding($v, $structure[$k]['charset'], mb_detect_encoding($v)));
                     }
                 }
 
@@ -699,15 +763,13 @@ class TablesModel extends RegisterService
             });
 
     }
-    
+        
     /**
-     * embedData
+     * editRequestFieldsAddAndEditData
      *
-     * @param  mixed $dbname
-     * @param  mixed $table
      * @return void
      */
-    public function embedData(string $dbname, string $table)
+    private function editRequestFieldsAddAndEditData(string $dbname, string $table)
     {
 
         $request = $this->request->post();
@@ -726,7 +788,26 @@ class TablesModel extends RegisterService
             }
         }
 
-        $this->addDataHandler($newStructure, $request, $dbname, $table);
+        return [
+            'newStructure' => $newStructure,
+            'request'      => $request,
+        ];
+
+    }
+
+    /**
+     * embedData
+     *
+     * @param  mixed $dbname
+     * @param  mixed $table
+     * @return void
+     */
+    public function embedData(string $dbname, string $table)
+    {
+
+        $fullRequest = $this->editRequestFieldsAddAndEditData($dbname, $table);
+
+        $this->addDataHandler($fullRequest['newStructure'], $fullRequest['request'], $dbname, $table);
         Redirector::route('FastDB.watch-table', ['db' => $dbname, 'table' => $table])->redirect();
 
     }
@@ -742,16 +823,21 @@ class TablesModel extends RegisterService
     {
 
         $request = $this->request->post('unique-id-record');
+        $storageModel = $this->model->load('Storage');
+        $usersModel = $this->model->load('Users');
 
         if(Common::getMethod() === 'GET') {
             $request[] = $this->request->get('id');
         }
+        
 
         Store::editJsonFile($this->getPathOfTable($dbname, $table, 'data.fd'))
-            ->editJsonData(function($data) use ($request) {
+            ->editJsonData(function($data) use ($request, $storageModel, $usersModel, $dbname, $table) {
                 foreach($request as $id)
                 {
                     if(array_key_exists($id, $data['data'])) {
+                        $storageModel->save($usersModel, $dbname, $table, $this->getData($dbname, $table)['data'][$id]);
+                        
                         unset($data['data'][$id]);
                     }
                 }
@@ -760,6 +846,130 @@ class TablesModel extends RegisterService
             });
 
         Redirector::back()->redirect();
+
+    }
+    
+    /**
+     * editData
+     *
+     * @param  mixed $dbname
+     * @param  mixed $table
+     * @param  mixed $id
+     * @return void
+     */
+    public function editData(string $dbname, string $table, int $id)
+    {
+
+        $fullRequest = $this->editRequestFieldsAddAndEditData($dbname, $table);
+        $request = $fullRequest['request'];
+        $structure = $fullRequest['newStructure'];
+
+        Store::editJsonFile($this->getPathOfTable($dbname, $table, 'data.fd'))
+            ->editJsonData(function($data) use ($request, $id, $dbname, $table, $structure) {
+                if(isset($data['data'][$id])) {
+                    foreach($request as $k => $v)
+                    {
+                        $methodDefault = one_up_line($structure[$k]['default']);
+                        $methodType = one_up_line($structure[$k]['type']);
+                        
+                        if($k === 'life') {
+                            $v = $v < 0 ? -1 : Date::unix() + $v;
+                        }
+
+                        if(empty($v)) {
+                            if(empty($structure[$k]['other-default'])) {
+                                $data['data'][$id][$k] = $this->defaults->$methodDefault();
+                            } else {
+                                $data['data'][$id][$k] = $structure[$k]['other-default'];
+                            }
+                        } else {
+                            $data['data'][$id][$k] = $this->types->$methodType(mb_convert_encoding($v, $structure[$k]['charset'], mb_detect_encoding($v)));
+                        }
+                    }
+
+                    if($this->request->get('ajax') == 1) {
+                        echo $this->getErrorToJson('success', 'success_edit_data_table');
+                    } else {
+                        Redirector::route('FastDB.watch-table', ['db' => $dbname, 'table' => $table])->redirect();
+                    }
+                }
+
+                return $data;
+            });
+
+    }
+    
+    /**
+     * editStructure
+     *
+     * @param  mixed $dbname
+     * @param  mixed $table
+     * @return void
+     */
+    public function editStructure(string $dbname, string $table)
+    {
+
+        $request = $this->deleteEmptyColumns();
+        $request = $this->deleteRepeateColumns($request);
+        $dataReq = [];
+
+        if(is_array($request['name-column']) && (count($request['name-column']) > 0)) {
+            foreach($request['name-column'] as $k => $name)
+            {
+                $dataReq['column-'.$k] = [
+                    'name-column'   => $name,
+                    'type'          => $request['type'][$k],
+                    'length'        => empty($request['length'][$k]) ? null : (int) $request['length'][$k],
+                    'default'       => $request['default'][$k],
+                    'other-default' => $request['other-default'][$k],
+                    'charset'       => $request['charset'][$k]
+                ];
+            }
+        }
+
+        if($this->checkNumberOfFieldColumns() === true) {
+            if($this->validationCreateTable(false) === true) {
+                Store::editJsonFile($this->getPathOfTable($dbname, $table, 'structure.fd'))
+                    ->editJsonData(function($data) use ($dataReq) {
+                        $data = $dataReq;
+                        return $data;
+                    });
+                Store::editJsonFile($this->getPathOfTable($dbname, $table, 'data.fd'))
+                    ->editJsonData(function($data) use ($request) {
+                        foreach($this->request->post('old-name-column') as $k => $oldColumn)
+                        {
+                            foreach($data['data'] as $key => $record)
+                            {
+                                $data['data'][$key] = renameArrayKey($data['data'][$key], $oldColumn, $request['name-column'][$k]);
+
+                                foreach($record as $kNameColumn => $v)
+                                {
+                                    if(!in_array($kNameColumn, $this->request->post('old-name-column')) && !in_array($kNameColumn, $request['name-column'])) {
+                                        unset($data['data'][$key][$kNameColumn]);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach($request['name-column'] as $k => $v)
+                        {
+                            foreach($data['data'] as $key => $record)
+                            {
+                                if(array_key_exists($v, $record) === false) {
+                                    $data['data'][$key][$v] = null;
+                                }
+                            }
+                        }
+
+                        return $data;
+                    });
+
+                    echo $this->getErrorToJson('success', 'success_edit_structure', ['redirect' => route('FastDB.watch-table', ['db' => $dbname, 'table' => $table])]);
+            }
+            else {
+                return false;
+            }
+        }
 
     }
 

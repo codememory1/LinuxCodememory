@@ -36,7 +36,7 @@
                                 <tr>
                                     <td>[[ $user['username'] ]]</td>
                                     <td>[[ $user['server'] ]]<span class="info">:</span>[[ $user['port'] ]]</td>
-                                    <td>[[ empty($user['password']) ? '<i class="green fas fa-badge-check"></i>' : '<i class="red fal fa-times-circle"></i>' ]]</td>
+                                    <td>[[ empty($user['password']) ? '<i class="red fal fa-times-circle"></i>' : '<i class="green fas fa-badge-check"></i>' ]]</td>
                                     <td>[[ $prosentAccess > 99 ? '<span class="green">ALL</span>' : '<span class="red">NOT ALL</span>' ]]</td>
                                     <td>
                                         <input type="checkbox" name="freeze-account" class="banned-account on-off" [[ $user['freeze-account'] === true ? 'checked' : '' ]] user-hash="[[ $user['hash'] ]]">

@@ -98,7 +98,7 @@ class Big
         Store::overwrite($this->conf->cache.$view, $data, '.php');
 
         ob_start();
-
+        
         extract($this->data);
         require $this->conf->cache.$view.'.php';
 

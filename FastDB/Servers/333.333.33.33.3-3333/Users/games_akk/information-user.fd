@@ -27,7 +27,8 @@
         "delete-user": true,
         "watch-table": true,
         "embed-data-table": true,
-        "cleans-table": true
+        "cleans-table": true,
+        "edit-tabel-data": true
     },
     "deleted-data": {
         "save": false,

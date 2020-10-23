@@ -47,6 +47,14 @@ gulp.task('js', function(){
 	.pipe(gulp.dest('src/Build/js'))
 });
 
+gulp.task('jsSeparately', function() {
+  return gulp.src(['src/Assets/js/compress/*.js'])
+  .pipe(plumber())
+	.pipe(rename({suffix: '.min'}))
+	.pipe(uglify())
+	.pipe(gulp.dest('src/Build/js'))
+});
+
 
 gulp.task('export', function(){
   let buildHtml = gulp.src('app/**/*.html')
@@ -68,6 +76,7 @@ gulp.task('export', function(){
 gulp.task('watch', function(){
   gulp.watch('src/Assets/sass/**/*.scss', gulp.parallel('scss'));
   gulp.watch('src/Assets/js/*.js', gulp.parallel('js'));
+  gulp.watch('src/Assets/js/*.js', gulp.parallel('jsSeparately'));
 });
 
 gulp.task('build', gulp.series('clean', 'export'))

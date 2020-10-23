@@ -1,23 +1,4 @@
-# Ignor logs
-storage/logs/*.log
-
-#ignor cookie cache
-storage/cache/Cookies/*.cookie
-
-#ignor session cache
-storage/cache/Sessions/*.session
-
-#ignor cache
-storage/cache/Cookies/*.cache
-
-#ignor idea
-.idea/
-
-#ignor env settings app
-.env
-
-#ignot folder vendor
 vendor/
-
-#ignor folder node_modules
 node_modules/
+storage/
+.idea/

@@ -59,8 +59,8 @@
         "name-column": "life",
         "type": "int",
         "length": null,
-        "default": null,
-        "other-default": null,
-        "charset": "UTF-8"
+        "default": "null",
+        "other-default": "-1",
+        "charset": "pass"
     }
 }
