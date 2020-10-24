@@ -31,8 +31,8 @@ class Url
 	 */
 	public function rootPath() 
 	{
-		
-		return Store::replace(['/' => '\\'], dirname(dirname(__DIR__))).'\\';
+
+		return Store::replace(['\\' => '/'], dirname(getcwd())).'/';
 		
 	}
 	

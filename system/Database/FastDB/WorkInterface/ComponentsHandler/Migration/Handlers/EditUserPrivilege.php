@@ -15,7 +15,7 @@ class EditUserPrivilege
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/users/edit/access/handler';
+    private $urlHandler = 'http://192.168.0.111/fastdb/users/edit/access/handler';
 
     /**
      * dbname

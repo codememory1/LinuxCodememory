@@ -131,7 +131,7 @@ class UsersController extends Controller
 
         $this->common->checkAccess('edit-user-access');
 
-        if($model->existsUser('opened', $this->request->get('login')) === false) {
+        if($this->usersModel->existsUser('opened', $this->request->get('login')) === false) {
             Response::setResponseCode(404)->getContentResponseCode();
         }
 

@@ -15,7 +15,7 @@ class ChangeUserSettings
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/users/create/handler';
+    private $urlHandler = 'http://192.168.0.111/fastdb/users/create/handler';
 
     /**
      * dbname
@@ -73,7 +73,7 @@ class ChangeUserSettings
 
         if(isset($args['userEdit'])) {
             try {
-                $response = $this->client->request('POST', 'http://mydb.loc/fastdb/users/edit/handler', [
+                $response = $this->client->request('POST', 'http://192.168.0.111/fastdb/users/edit/handler', [
                     'query'           => $this->interface->renderQuery(['login' => $args['userEdit']]),
                     'form_params'     => $args['userdata'],
                     'allow_redirects' => false
@@ -90,7 +90,7 @@ class ChangeUserSettings
         } else {
             try {
                 $userdata = array_diff_key($args['userdata'], array_flip(['username', 'privilege', 'max-memory', 'freeze-account']));
-                $response = $this->client->request('POST', 'http://mydb.loc/fastdb/settings/save', [
+                $response = $this->client->request('POST', 'http://192.168.0.111/fastdb/settings/save', [
                     'query'           => $this->interface->renderQuery(),
                     'form_params'     => $userdata,
                     'allow_redirects' => false

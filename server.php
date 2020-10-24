@@ -4,6 +4,8 @@
     use System\Classes\AliasesContainer;
     use System\Classes\Facade\Facade;
     use System\Codememory\CodememoryConfigurationLanguage\ReinforcerCodememory;
+    
+		session_start();
 
     // /*
     // * ===_===_===_===_===_===_===_===_===_===_===_===_===_===_==
@@ -13,7 +15,6 @@
     // * ===_===_===_===_===_===_===_===_===_===_===_===_===_===_==
     // */
     // require __DIR__ .'/vendor/autoload.php';
-	
 
     /*
     * ===_===_===_===_===_===_===_===_===_===_===_===_===_===_==
@@ -24,7 +25,6 @@
     */
 
     require __DIR__ . "/system/libs/Plugins/CommonFunctionsPlugins.php";
-    
 
     /*
     * ===_===_===_===_===_===_===_===_===_===_=
@@ -70,3 +70,4 @@
 		echo $ex->getMessage();
          
     }
+

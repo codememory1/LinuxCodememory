@@ -19,7 +19,7 @@ class AuthFastDBAccess
     {
 
         $servers = Request::get('server') ?? '';
-        list($server, $port) = explode(':', $servers);
+        list($server, $port) = explode(':', $servers ?: ':');
 
         $login = Request::get('login-auth') ?? '';
         $password = Request::get('password') ?? '';

@@ -15,7 +15,7 @@ class DropTable
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/table/delete';
+    private $urlHandler = 'http://192.168.0.111/fastdb/table/delete';
 
     /**
      * dbname

@@ -15,7 +15,7 @@ class DeleteUser
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/users/delete';
+    private $urlHandler = 'http://192.168.0.111/fastdb/users/delete';
 
     /**
      * dbname

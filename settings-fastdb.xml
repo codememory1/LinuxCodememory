@@ -11,8 +11,8 @@
         <log path="/Migrations/FastDB/logs/" />
     </paths>
     <logging remove-current-log="false">
-        <success filename="success.log" />
-        <error filename="error.log" />
+        <success filename="" />
+        <error filename="" />
     </logging>
     <handler>
         <methodExecute name="execute" />

@@ -40,7 +40,7 @@ class MigrationsListingCommand extends Command
         $connect = new Connect(getcwd().'\settings-fastdb.xml');
 
         if(!$connect->getSettings()) {
-            $io->error('Settings file not found');
+            $io->error('Файл настроек не найден');
 
             exit();
         }

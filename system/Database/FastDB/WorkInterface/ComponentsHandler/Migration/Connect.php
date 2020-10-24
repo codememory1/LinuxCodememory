@@ -25,7 +25,7 @@ class Connect implements ConnectionInterface
     public function __construct(?string $settingsPath = null)
     {
         
-        $path = $settingsPath !== null ? $settingsPath : getcwd().'/settings-fastdb.xml';
+        $path = getcwd().'/settings-fastdb.xml';
 
         $this->settings = simplexml_load_file($path);
 

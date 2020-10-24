@@ -294,7 +294,8 @@ class HandlerComponents
 
         foreach($matches[0] as $k => $replace)
         {
-            $class = down_line(array_pop(explode('\\', $matches[1][$k])));
+            $expMatch = explode('\\', $matches[1][$k]);
+            $class = down_line(array_pop($expMatch));
             if(!empty($matches[2][0])) {
                 $class = $matches[2][$k];
             }

@@ -149,10 +149,10 @@ class Response
 	{
 		
 		$code = $this->getResponseCode();
-		$configResponseCode = config('Codememory.ErrorPages');
+		$configResponseCode = [];
 		
 		$namespace = 'App\\Controllers\\';
-		
+
 		if(array_key_exists($code, $configResponseCode))
 		{
 			
@@ -173,7 +173,7 @@ class Response
 			return exit($responseCode);
 			
 		}
-		
+
 		return exit($content);
 		
 	}

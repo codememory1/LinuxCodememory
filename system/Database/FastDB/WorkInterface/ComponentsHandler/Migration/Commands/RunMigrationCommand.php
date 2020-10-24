@@ -27,7 +27,7 @@ class RunMigrationCommand extends Command
     {
 
         $this->setDescription('Migrations run')
-            ->addArgument('name', InputArgument::REQUIRED, 'Migration Name');
+            ->addArgument('name', InputArgument::REQUIRED, 'Название миграции');
 		
     }
     
@@ -42,16 +42,16 @@ class RunMigrationCommand extends Command
     {
         
         $io = new SymfonyStyle($input, $output);
-        $connect = new Connect(getcwd().'\settings-fastdb.xml');
+        $connect = new Connect(getcwd().'/settings-fastdb.xml');
 
         if(!$connect->getSettings()) {
-            $io->error('Settings file not found');
+            $io->error('Файл настроек не найден');
 
             exit();
         }
 
         $migrationPath = $connect->getSettings()->paths->migration['path'];
-        $migrationPath = getcwd().str_replace('/', '\\', $migrationPath);
+        $migrationPath = getcwd().str_replace('\\', '/', $migrationPath);
         $scan = array_diff(scandir($migrationPath), ['.', '..']);
         $namespace = $connect->getSettings()->handler->namespace['name'];
         $methodExec = $connect->getSettings()->handler->methodExecute['name'];
@@ -87,7 +87,7 @@ class RunMigrationCommand extends Command
 
         $statusRequest = $migration->$method();
 
-        if($statusRequest === true) $io->success('Migration completed successfully');
+        if($statusRequest === true) $io->success('Migration successfull executer.');
         else $io->error($statusRequest['message']);
 
     }

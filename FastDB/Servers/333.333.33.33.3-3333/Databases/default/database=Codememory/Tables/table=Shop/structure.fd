@@ -54,13 +54,5 @@
         "default": "timestamp",
         "other-default": "",
         "charset": "pass"
-    },
-    "column-7": {
-        "name-column": "life",
-        "type": "int",
-        "length": null,
-        "default": "null",
-        "other-default": "-1",
-        "charset": "pass"
     }
 }

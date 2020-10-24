@@ -109,7 +109,7 @@ class ReinforcerCodememory
 	public static function open($path)
 	{
 		
-		require self::PATH_COMPILATION.md5($path).'.php';
+		require getcwd().'/'. self::PATH_COMPILATION.md5($path).'.php';
 		
 		return [
 			'vars' => $_VARS

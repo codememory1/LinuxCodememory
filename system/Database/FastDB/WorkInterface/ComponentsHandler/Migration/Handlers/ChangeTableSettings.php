@@ -15,7 +15,7 @@ class ChangeTableSettings
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/table/settings/handler';
+    private $urlHandler = 'http://192.168.0.111/fastdb/table/settings/handler';
 
     /**
      * dbname

@@ -166,7 +166,7 @@
                 id: "[[ $k + 1 ]]",
                 nameEvent: "[[ $data['name'] ]]",
                 event: "[[ $data['event'] ]]",
-                dbname: "[[ $data['dbanme'] ]]",
+                dbname: "[[ $data['dbname'] ]]",
                 tableName: "[[ $data['table-name'] ]]",
                 urlScript: "[[ $data['url-script'] ]]",
                 requestMethod: "[[ $data['request-method'] ]]",

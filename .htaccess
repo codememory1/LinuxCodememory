@@ -1,8 +1,5 @@
 AddDefaultCharset utf-8
 RewriteEngine On
-RewriteRule ^(.*)$  /src/$1 
-
-php_value output_buffering On
-php_value output_handler mb_output_handler
+RewriteRule ^(.*)$ /src/$1 
 
 

@@ -241,9 +241,8 @@ if (!function_exists('validate')) {
 if (!function_exists('include_cm')) {
 	function include_cm($path, $addPath = null)
 	{
-		
 		if($addPath === null)
-			return CompilerCM::PATH_COMPILATION.md5($path).'.php';
+			return dirname(getcwd()).'/'.CompilerCM::PATH_COMPILATION.md5($path).'.php';
 		else
 			return $addPath.CompilerCM::PATH_COMPILATION.md5($path).'.php';
 		

@@ -50,7 +50,7 @@ class Router
 	{
 
 		$scanRoutes = Store::scan('app/routes');
-        
+		
         foreach($scanRoutes as $routes)
         {
             if(strpos($routes, '-routes.php'))
@@ -203,7 +203,7 @@ class Router
 		$method = Common::getMethod();
 		
 		$method = (empty($method)) ? 'GET' : $method;
-		
+
 		if(array_key_exists($method, static::$routes))
 			return true;
 		else

@@ -19,7 +19,7 @@ class FastDbDoAuthAccess
     {
 
         $servers = Request::get('server') ?? '';
-        list($server, $port) = explode(':', $servers);
+        list($server, $port) = explode(':', $servers ?: ':');
 
         $login = Request::get('login-auth') ?? '';
         $password = Request::get('password') ?? '';
@@ -27,7 +27,6 @@ class FastDbDoAuthAccess
         $model = new AuthModel();
 
         $authMethod = $model->curlAuth($server, $port, $login, $password);
-        
 
         if(Session::has('authorize') === true || (Session::has('authorize') === null && $authMethod === true))
         {

@@ -33,7 +33,7 @@ class File
 	private function path($path):string
 	{
 		
-		return Url::join($path);
+		return dirname(getcwd()).'/'.$path;
 		
 	}
 	

@@ -61,7 +61,7 @@ class Delete
 
         foreach($this->selectData as $id => $data)
         {
-            $response = $client->request('GET', 'http://mydb.loc'.$argc['url-request'], [
+            $response = $client->request('GET', 'http://192.168.0.111'.$argc['url-request'], [
                 'query' => [
                     'server'       => $this->connection->getFullServer(),
                     'login'        => $this->connection->getUsername(),

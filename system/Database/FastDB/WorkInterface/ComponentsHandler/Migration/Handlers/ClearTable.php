@@ -15,7 +15,7 @@ class ClearTable
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/table/cleans';
+    private $urlHandler = 'http://192.168.0.111/fastdb/table/cleans';
 
     /**
      * dbname

@@ -15,7 +15,7 @@ class CreateTable
      *
      * @var string
      */
-    private $urlHandler = 'http://mydb.loc/fastdb/table/create/handler';
+    private $urlHandler = 'http://192.168.0.111/fastdb/table/create/handler';
 
     /**
      * dbname

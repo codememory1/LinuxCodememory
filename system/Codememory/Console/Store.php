@@ -29,7 +29,7 @@ class Store
      *
      * @var int
      */
-    private $sizeFIle = 0;
+    private $sizeFile = 0;
     
     /**
      * openedEditJsonFile

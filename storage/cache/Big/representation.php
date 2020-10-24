@@ -166,7 +166,7 @@
                 id: "<?php echo $k + 1; ?>",
                 nameEvent: "<?php echo $data['name']; ?>",
                 event: "<?php echo $data['event']; ?>",
-                dbname: "<?php echo $data['dbanme']; ?>",
+                dbname: "<?php echo $data['dbname']; ?>",
                 tableName: "<?php echo $data['table-name']; ?>",
                 urlScript: "<?php echo $data['url-script']; ?>",
                 requestMethod: "<?php echo $data['request-method']; ?>",

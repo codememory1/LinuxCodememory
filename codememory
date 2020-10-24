@@ -27,15 +27,9 @@
 
 	$application->add(new \System\Router\Console\CreateAccessCommand);
 	$application->add(new \System\Router\Console\CreateControllerCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\CreateMigrationCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\RunMigrationCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\CreateConfigurationCommand);
 	$application->add(new \System\Service\Console\CreateServiceCommand);
 	$application->add(new \System\ENV\Console\UpdateAppKeyCommand);
 	$application->add(new \System\Http\Console\RunClassAndMethodCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\CreateConfigurationCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\CreateMigrationCommand);
-	$application->add(new \System\Database\FastDB\FunctionalDatabase\Migration\Console\RunMigrationCommand);
 
 	$application->run();
 	

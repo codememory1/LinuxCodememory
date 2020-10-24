@@ -15,12 +15,16 @@ use System\Database\FastDB\WorkInterface\ComponentsHandler\Migration\ {
 class %s extends InterfaceMigration
 {
 
-    public function %s():string
+    /** 
+    *
+    * @return executer
+    */
+    public function %s()
     {
 
         // TODO:
 
-        return 'successfull';
+        return $exec;
 
     }
 

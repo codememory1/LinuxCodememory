@@ -96,7 +96,7 @@ class CodememoryContainer
 
 		require include_cm('config/Codememory/configuration');
 
-		session_save_path(\Url::join($session['save']));
+		// session_save_path(\Url::join($session['save']));
 		
 	}
 
@@ -108,7 +108,7 @@ class CodememoryContainer
 	{
 		$this->settingsConfiguration();
 
-		session_start();
+		// session_start();
 
 		$this->runEnvSettings();
 		$this->generateServices();

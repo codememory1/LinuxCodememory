@@ -1,0 +1,12 @@
+{
+    "information": {
+        "name": "TestDatabase2",
+        "charset": "UTF-8",
+        "creator": "default",
+        "date-create": "2020-10-25 00:06",
+        "remove-access": true
+    },
+    "statistics": {
+        "requests": 0
+    }
+}
