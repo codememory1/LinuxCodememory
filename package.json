@@ -9,7 +9,7 @@
   "author": "Vadim Prokopchuk",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.26.5",
+    "browser-sync": "^2.26.13",
     "del": "^5.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
@@ -20,9 +20,11 @@
     "normalize.css": "^8.0.1"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
     "gulp-plumber": "^1.2.1",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify-es": "^2.0.0",
+    "log-timestamp": "^0.3.0",
     "slick-carousel": "^1.8.1"
   }
 }

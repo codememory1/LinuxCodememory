@@ -57,9 +57,9 @@ class Url
 	public function join(string $path)
 	{
 		
-		$path = Store::replace(['/' => '\\'], $path);
+		$path = Store::replace(['\\' => '/'], $path);
 
-		return $this->rootPath().trim($path, '/');
+		return dirname(getcwd()).'/'.trim($path, '/');
 		
 	}
 		

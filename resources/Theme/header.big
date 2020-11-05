@@ -7,6 +7,7 @@
 	[@assets(css,all.min)]
 	[@build(css,main.min)]
 	[@assets(js,Modules/ContextMenu)]
+
 	<script>
 		let defaultMenu = [
 			{name: 'reload', value: 'Перезагрузить'},

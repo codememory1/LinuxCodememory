@@ -26,7 +26,7 @@ class AppEnv
     static public function set($key, $data = null)
     {
 
-        $globalVar = (isset($_ENV[$key]) == 'null') ? '' : $_ENV[$key]; 
+        $globalVar = (isset($_ENV[$key]) === 'null') ? '' : $_ENV[$key]; 
 
         self::$list[$key] = ($globalVar == '' || $globalVar === null || $globalVar == 'null') ? $data : $globalVar;
 

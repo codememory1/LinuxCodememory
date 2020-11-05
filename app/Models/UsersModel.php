@@ -488,8 +488,10 @@ class UsersModel extends RegisterService
         });
 
         Store::move($path.$username, $path.$newUsername);
+        Store::move($this->getPathServer($this->getFullServer('server-dir'), 'Databases/').$username, $this->getPathServer($this->getFullServer('server-dir'), 'Databases/').$newUsername);
+        Store::move($this->getPathServer($this->getFullServer('server-dir'), 'Representation/').$username, $this->getPathServer($this->getFullServer('server-dir'), 'Representation/').$newUsername);
         Flash::name('flash-error')->add('success', $this->getError('success_edit_info_user'));
-        // $this->session->remove('confirm-auth');
+        $this->session->remove('authorize');
 
         Redirector::his(route('FastDB.edit-user').'?login='.$newUsername)->redirect();
 
@@ -554,7 +556,7 @@ class UsersModel extends RegisterService
         }
 
         if($validate === true) {
-            Redirector::back()->redirect();
+            Redirector::route('FastDB.auth')->redirect();
         }
     }
 

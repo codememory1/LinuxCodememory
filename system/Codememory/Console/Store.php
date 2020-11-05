@@ -272,6 +272,7 @@ class Store
      */
     public function exists($path)
     {
+
         return (file_exists(Url::rootPath().$path)) ? true : false;
     }
     
@@ -510,12 +511,9 @@ class Store
      */
     public function editJsonFile(string $path)
     {
-
-        if($this->exists($path) === true) {
-            $this->path = $path;
+        $this->path = $path;
             
-            $this->openedEditJsonFile = $this->getApi($path);
-        }
+        $this->openedEditJsonFile = $this->getApi($path);
 
         return $this;
         

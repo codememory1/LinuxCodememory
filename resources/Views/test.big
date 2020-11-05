@@ -1,0 +1,62 @@
+[@assets(css,libs/tooltip)]
+
+<div class="block block1" tooltip-message="TestTooltip" tooltip-position="top"></div>
+
+<div class="block block2" tooltip-message="TestTooltip" tooltip-position="left"></div>
+
+<div class="block block3" tooltip-message="TestTooltip" tooltip-position="top" style="left: 300px"></div>
+
+<div class="block block4" tooltip-message="TestTooltip" tooltip-position="bottom"></div>
+
+<div class="block block5" tooltip-message="TestTooltip" tooltip-position="left"></div>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+<div class="t"></div>
+
+
+<style>
+    body {
+        height: 3000px
+    }
+    .block {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        background-color: red;
+    }
+
+    .block1 {
+        left: 0;
+        top: 0;
+    }
+
+    .block2 {
+        right: 0;
+        top: 0;
+    }
+
+    .block3 {
+        left: 0;
+        bottom: 0;
+    }
+
+    .block4 {
+        right: 0;
+        bottom: 0;
+    }
+
+    .block5 {
+        left: 50%;
+        top: 50%;
+    }
+
+    .test {
+        background-color: blue;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 327.5px;
+        left: 924px;
+    }
+</style>
+
+[@assets(js,libs/super/tooltip)]

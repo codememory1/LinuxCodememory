@@ -2,11 +2,11 @@
 <?php echo \View::theme('menu'); ?>
 
 <?php $namespace0 = 'App\\Models\\DatabaseModel'; $dbWithTables = new $namespace0(); ?>
+
 <script>
     let settingsModal = [];
     let contentsModal = [];
 </script>
-
 <div class="basic-content grid">
     <?php echo \View::theme('sitebars'); ?>
 
@@ -94,7 +94,6 @@
         </div>
     </div>
 </div>
-
 <?php echo \View::theme('footer'); ?>
 <script>
     new Modal(true, settingsModal).content(contentsModal).render();

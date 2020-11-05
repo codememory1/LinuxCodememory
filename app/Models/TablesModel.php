@@ -740,7 +740,8 @@ class TablesModel extends RegisterService
                     $methodType = one_up_line($structure[$k]['type']);
                     
                     if($k === 'life') {
-                        $v = $v < 0 ? -1 : Date::unix() + $v;
+                        $v = (int) $v < 0 ? -1 : Date::unix() + (int) $v;
+                        $structure[$k]['charset'] = 'utf-8';
                     }
 
                     if(empty($v)) {

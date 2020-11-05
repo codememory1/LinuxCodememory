@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+.cdm-tooltip__container {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: max-content;
+    max-width: 150px;
+    padding: 4px 5px;
+    border-radius: 3px;
+    color: #fff;
+    position: absolute;
+    font-family: 'Roboto', sans-serif!important;
+    font-size: 13px!important;
+    word-break: break-all;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.cdm-tooltip__container.top.active {
+    transition: all 0.4s ease;
+    transform: translateY(10px);
+}
+
+.cdm-tooltip__container.bottom.active {
+    transition: all 0.4s ease;
+    transform: translateY(-10px);
+}
+
+.cdm-tooltip__container.left.active {
+    transition: all 0.4s ease;
+    transform: translateX(10px);
+}
+
+.cdm-tooltip__container.right.active {
+    transition: all 0.4s ease;
+    transform: translateX(-10px);
+}
+
+.cdm-tooltip__container:after {
+    content: '';
+    border: 7px solid transparent;
+    position: absolute;
+}
+
+.cdm-tooltip__container.top:after {
+    border-top: 7px solid rgba(0, 0, 0, 0.8);
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cdm-tooltip__container.bottom:after {
+    border-bottom: 7px solid rgba(0, 0, 0, 0.8);
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cdm-tooltip__container.right:after {
+    border-right: 7px solid rgba(0, 0, 0, 0.8);
+    top: 50%;
+    left: -14px;
+    transform: translateY(-50%);
+}
+
+.cdm-tooltip__container.left:after {
+    border-left: 7px solid rgba(0, 0, 0, 0.8);
+    top: 50%;
+    right: -14px;
+    transform: translateY(-50%);
+}
+
+.cdm-tooltip__content {
+    position: relative;
+    width: inherit;
+    height: inherit;
+}

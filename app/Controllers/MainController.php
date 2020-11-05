@@ -66,6 +66,13 @@ class MainController extends Controller
 
         // echo $n->setSuccessLog('Создание Таблицы', '{status:success, message: "Error"}');
 
+        // $this->view->big('test');
+
+        $r = \Ini::parse('system/Database/FastDB/WorkInterface/ComponentsHandler/Migration/config')->data();
+
+        debug($r);
+
+        echo base_convert('2A43', 15, 2);
     }
     
 }

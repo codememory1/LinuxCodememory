@@ -7,6 +7,7 @@
 	<?php echo \Assets::execute()->css('all.min'); ?>
 	<?php echo \Build::execute()->css('main.min'); ?>
 	<?php echo \Assets::execute()->js('Modules/ContextMenu'); ?>
+
 	<script>
 		let defaultMenu = [
 			{name: 'reload', value: 'Перезагрузить'},

@@ -255,7 +255,7 @@ class RepresentationModel extends RegisterService
 
         $pathFile = $this->getPathServer($this->getFullServer('server-dir')).'Representation/%s/Event_%s/event.fd';
         $fullPath = sprintf($pathFile, $this->getUsername(), $event);
-
+// debug($fullPath);
         Store::editJsonFile($fullPath)->editJsonData($callback);
 
     }

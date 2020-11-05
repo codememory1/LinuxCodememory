@@ -95,7 +95,7 @@ class FileIni
 	 */
 	public function parse($path, $process = true, $options = null)
 	{
-
+echo $this->path($path.self::EXPANSION);
 		if($this->exists($path) === true) 
 			$this->parseData = parse_ini_file($this->path($path.self::EXPANSION), $process, $options);
 		

@@ -25,7 +25,7 @@ class Date
         self::timezone();
         
         $date = new DateTime(self::timezone());
-            
+
         return $date->format($format);
         
     }
@@ -198,7 +198,7 @@ class Date
     private static function timezone()
     {
         $timeZone = AppEnv::get("DATETIME");
-        
+
         date_default_timezone_set($timeZone);
         
         return $timeZone;

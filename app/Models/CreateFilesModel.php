@@ -40,7 +40,7 @@ class CreateFilesModel extends RegisterService
 
         $path = sprintf('FastDB/Servers/%s/Databases/%s/', $server, $username);
         $name = 'database='.$dbname;
-echo $path.$name;
+
         Store::createDir($path.$name);
         File::create($path.$name.'/information-database.fd');
         Store::overwrite($path.$name.'/information-database', Response::arrayToJson($data), '.fd');

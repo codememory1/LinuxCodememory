@@ -2,11 +2,11 @@
 [@theme(menu)]
 
 [@use(App\\Models\\DatabaseModel, dbWithTables)]
+
 <script>
     let settingsModal = [];
     let contentsModal = [];
 </script>
-
 <div class="basic-content grid">
     [@theme(sitebars)]
 
@@ -94,7 +94,6 @@
         </div>
     </div>
 </div>
-
 [@theme(footer)]
 <script>
     new Modal(true, settingsModal).content(contentsModal).render();
