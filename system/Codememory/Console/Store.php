@@ -324,11 +324,12 @@ class Store
      */
     public function scan($path)
     {
-		
+
         $status = ($this->exists($path) === true) ? true : false;
+
         if($status === true)
         {
-			
+            
             $scan = scandir(Url::rootPath().$path);
             array_shift($scan);
             array_shift($scan);

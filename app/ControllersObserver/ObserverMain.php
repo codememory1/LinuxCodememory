@@ -46,21 +46,23 @@ class ObserverMain extends Observer
                 {
                     $pathDbInTable = $pathDb.$dbname.'/Tables/';
 
-                    foreach(Store::scan($pathDbInTable) as $tablename)
-                    {
-                        $pathTable = $pathDbInTable.$tablename.'/';
-
-                        Store::editJsonFile($pathTable.'data.fd')
-                            ->editJsonData(function($datas) {
-                                foreach($datas['data'] as $k => $data) {
-                                    if(isset($data['life']) && $data['life'] >= 0) {
-                                        if(Date::unix() > $data['life']) {
-                                            unset($datas['data'][$k]);
+                    if(is_array(Store::scan($pathDbInTable))) {
+                        foreach(Store::scan($pathDbInTable) as $tablename)
+                        {
+                            $pathTable = $pathDbInTable.$tablename.'/';
+    
+                            Store::editJsonFile($pathTable.'data.fd')
+                                ->editJsonData(function($datas) {
+                                    foreach($datas['data'] as $k => $data) {
+                                        if(isset($data['life']) && $data['life'] >= 0) {
+                                            if(Date::unix() > $data['life']) {
+                                                unset($datas['data'][$k]);
+                                            }
                                         }
                                     }
-                                }
-                                return $datas;
-                            });
+                                    return $datas;
+                                });
+                        }
                     }
                 }
             }

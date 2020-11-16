@@ -152,7 +152,9 @@ class DatabaseModel extends RegisterService
         foreach($databases as $k => $db)
         {
             $pathToDb = $path.$db.'/Tables';
-            $tables = array_map(function($table) {
+            $scan = Store::scan($pathToDb);
+
+            $tables = @array_map(function($table) {
                 list($table, $name) = explode('=', $table);
     
                 return $name;
